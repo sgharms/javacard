@@ -1,0 +1,2 @@
+As I try writing a small application, these are notes for along the way.
+
