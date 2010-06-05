@@ -1,2 +1,30 @@
 As I try writing a small application, these are notes for along the way.
 
+------------------------------------------------------------------------------
+DIRECTORY LAYOUT
+------------------------------------------------------------------------------
+Root
+ classes
+ lib
+ src
+   com
+     stevengharms
+       projectname
+        ProjectName.java (package com.stevengharms.projectname)
+
+------------------------------------------------------------------------------
+COMPILATION
+------------------------------------------------------------------------------
+(from root)
+javac -d classes src/com/stevengharms/javacard/JavaCard.java
+
+Creates...
+
+classes/com/stevengharms/javacard/JavaCard.class
+
+Execute with...
+
+java -classpath classes/ com.stevengharms.javacard.JavaCard
+
+
+
