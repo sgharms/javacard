@@ -30,6 +30,7 @@
     </fileset>
 		<pathelement location="/Users/stharms/junit/junit4.9-SNAPSHOT-20100512-0041/junit-4.9-SNAPSHOT-20100512-0041.jar" />
 		<pathelement location="${build}" />
+   <pathelement location="${test.classes}" />
   </path>
 
   <target name="init" depends="clean">
