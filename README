@@ -1,0 +1,56 @@
+I checked this in as I try to debug my ant script.
+
+I want to run a very simple test class, with junit, in ant.  Currently when I
+run it I get this error:
+
+
+  Buildfile: /Users/stharms/java_card/build.xml
+
+  clean:
+     [delete] Deleting directory /Users/stharms/java_card/target
+
+  init:
+      [mkdir] Created dir: /Users/stharms/java_card/target
+      [mkdir] Created dir: /Users/stharms/java_card/target/test-classes
+      [mkdir] Created dir: /Users/stharms/java_card/target/classes
+
+  compile:
+      [javac] Compiling 1 source file to /Users/stharms/java_card/target/classes
+
+  compile-test:
+      [javac] Compiling 1 source file to /Users/stharms/java_card/target/test-classes
+      [javac] /Users/stharms/java_card/src/test/java/com/stevengharms/javacard/JavaCardTest.java
+
+  test:
+       [echo] Attempting to run JUnit for tests from [/Users/stharms/java_card/target/test-classes].
+      [junit] Running com.stevengharms.javacard.JavaCardTest
+
+  BUILD FAILED
+  /Users/stharms/java_card/build.xml:46: java.lang.NullPointerException
+    at org.apache.tools.ant.taskdefs.optional.junit.FailureRecorder$TestInfos.<init>(FailureRecorder.java:349)
+    at org.apache.tools.ant.taskdefs.optional.junit.FailureRecorder.addError(FailureRecorder.java:183)
+    at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:414)
+    at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeInVM(JUnitTask.java:1339)
+    at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:807)
+    at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.executeOrQueue(JUnitTask.java:1794)
+    at org.apache.tools.ant.taskdefs.optional.junit.JUnitTask.execute(JUnitTask.java:761)
+    at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)
+    at sun.reflect.GeneratedMethodAccessor4.invoke(Unknown Source)
+    at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+    at java.lang.reflect.Method.invoke(Method.java:597)
+    at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:106)
+    at org.apache.tools.ant.Task.perform(Task.java:348)
+    at org.apache.tools.ant.Target.execute(Target.java:390)
+    at org.apache.tools.ant.Target.performTasks(Target.java:411)
+    at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1360)
+    at org.apache.tools.ant.Project.executeTarget(Project.java:1329)
+    at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
+    at org.apache.tools.ant.Project.executeTargets(Project.java:1212)
+    at org.apache.tools.ant.Main.runBuild(Main.java:801)
+    at org.apache.tools.ant.Main.startAnt(Main.java:218)
+    at org.apache.tools.ant.launch.Launcher.run(Launcher.java:280)
+    at org.apache.tools.ant.launch.Launcher.main(Launcher.java:109)
+
+  Total time: 1 second
+
+I would like to figure out how to be able to run JUnit.
