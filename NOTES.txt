@@ -26,5 +26,28 @@ Execute with...
 
 java -classpath classes/ com.stevengharms.javacard.JavaCard
 
+------------------------------------------------------------------------------
+INTEGRATING JUNIT
+------------------------------------------------------------------------------
 
+1.  git JUnit
+2.  In junit directory:
+3.  java -cp .:junit-4.9-SNAPSHOT-20100512-0041.jar org.junit.runner.JUnitCore org.junit.tests.AllTests
+4.  Your test classes MUST : import junit.framework.*; and extend TestCase
+
+------------------------------------------------------------------------------
+Testing my app
+------------------------------------------------------------------------------
+REFERENCE:
+ * http://147.188.192.43/documentation/tutorials/docsystem/build/tutorials/junit/junit.html
+ * 
+
+1.  javac -cp .:/Users/stharms/junit/junit4.9-SNAPSHOT-20100512-0041/:/Users/stharms/junit/junit4.9-SNAPSHOT-20100512-0041/junit-4.9-SNAPSHOT-20100512-0041.jar  com/stevengharms/javacard/JavaCardTest.java 
+2.  java -cp .:/Users/stharms/junit/junit4.9-SNAPSHOT-20100512-0041/:/Users/stharms/junit/junit4.9-SNAPSHOT-20100512-0041/junit-4.9-SNAPSHOT-20100512-0041.jar  com.stevengharms.javacard.JavaCardTest
+
+Wow, that's a mouthful. Maybe ant can help?
+
+------------------------------------------------------------------------------
+ANT
+------------------------------------------------------------------------------
 
