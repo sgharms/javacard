@@ -8,6 +8,7 @@
   <property name="test.src"     value="src/test/java" />
 
 	<property name="build.dir" location="target" />
+	<property name="build.classes.dir" location="${build.dir}/classes" />	
   <property name="java.classes" value="${build.dir}/classes" />
   <property name="test.classes" value="${build.dir}/test-classes" />
 	
@@ -37,19 +38,24 @@
     <!-- Create the build directory structure used by compile -->
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${test.classes}"/>
+		<mkdir dir="${build.classes.dir}" />
   </target>
 
   <target name="test" depends="compile-test" description="Use JUnit for TDD">
-		<echo>Attempting to run JUnit for tests from [${test.dir}].</echo>
-		<junit>
-			<batchtest todir="."> 
-				<fileset dir="${test.classes}" includes="**/*Test.class"/>
-				<formatter type="failure" usefile="false"/>
-			</batchtest>
+		<echo>Attempting to run JUnit for tests from [${test.classes}].</echo>
+		<junit printsummary="yes" haltonfailure="yes">
+			<classpath>
+				<path refid="classpath.test2" />
+			</classpath>
+			<formatter type="failure" usefile="false"/>
+			<test name="com.stevengharms.javacard.JavaCardTest" />
+			<!-- <batchtest fork="yes" todir="."> 
+				<fileset dir="${test.src}" includes="**/*Test.java"/>
+			</batchtest> -->
     </junit>
   </target>
 
-  <target name="compile-test" depends="init"
+  <target name="compile-test" depends="compile"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
     <javac srcdir="${test.src}" destdir="${test.classes}" listfiles="yes" includes="**/*Test.java"
@@ -62,7 +68,7 @@
   <target name="compile" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${build}"  classpath="${junit.location}" />
+    <javac srcdir="${java.src}" destdir="${build.classes.dir}"  classpath="${junit.location}" includeantruntime="no"/>
   </target>
 
   <target name="dist" depends="compile,test"
