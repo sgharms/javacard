@@ -35,15 +35,20 @@
 
   <target name="test" depends="compile-test" description="Use JUnit for TDD">
 		<echo>Attempting to run JUnit for tests from [${test.dir}].</echo>
-		<junit printsummary="on">
-			<test name="com.stevengharms.javacard.JavaCardTest" />
+		<junit printsummary="on" logfailedtests="true" showoutput="true">
+			<batchtest todir="${test.data.dir}"> 
+				<fileset dir="${test.dir}" includes="**/*Test.class"/>
+			</batchtest>
     </junit>
   </target>
 
   <target name="compile-test" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${test.dir}" classpath="${junit.location}" listfiles="yes" includes="**/*Test.java"/>
+    <javac srcdir="${src}" destdir="${test.dir}" listfiles="yes" includes="**/*Test.java"
+	   includeantruntime="no">
+			<classpath refid="classpath.test2" />
+		</javac>
   </target>
   
 
