@@ -2,15 +2,20 @@
     <description>
         Simple build management script for JavaCard
     </description>
-  <!-- set global properties for this build -->
-  <property name="src" location="src"/>
-  <property name="build" location="classes"/>
-  <property name="dist"  location="dist"/>
+ 
+ <!-- set global properties for this build -->
+	<property name="java.src"     value="src/main/java" />
+  <property name="test.src"     value="src/test/java" />
+
+	<property name="build.dir" location="target" />
+  <property name="java.classes" value="${build.dir}/classes" />
+  <property name="test.classes" value="${build.dir}/test-classes" />
+	
 	<property name="junit.home" value="/Users/stharms/junit" />
 	<property name="junit.FQN" value="junit4.9-SNAPSHOT-20100512-0041" />
 	<property name="junit.file.location" value="${junit.home}/${junit.FQN}/${junit.FQN}.jar" /> 
 	<property name="junit.location" value="${junit.home}/${junit.FQN}/${junit.FQN}" /> 
-	<property name="test.dir" value="tests" />
+
 
 	<path id="classpath.test">
     <pathelement location="${junit.file.location}" />
@@ -23,21 +28,22 @@
       <include name="*.jar" />
     </fileset>
 		<pathelement location="/Users/stharms/junit/junit4.9-SNAPSHOT-20100512-0041/junit-4.9-SNAPSHOT-20100512-0041.jar" />
+		<pathelement location="${build}" />
   </path>
 
   <target name="init" depends="clean">
     <!-- Create the time stamp -->
     <tstamp/>
     <!-- Create the build directory structure used by compile -->
-    <mkdir dir="${build}"/>
-    <mkdir dir="${test.dir}"/>
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${test.classes}"/>
   </target>
 
   <target name="test" depends="compile-test" description="Use JUnit for TDD">
 		<echo>Attempting to run JUnit for tests from [${test.dir}].</echo>
-		<junit >
+		<junit>
 			<batchtest todir="."> 
-				<fileset dir="${test.dir}" includes="**/*Test.class"/>
+				<fileset dir="${test.classes}" includes="**/*Test.class"/>
 				<formatter type="failure" usefile="false"/>
 			</batchtest>
     </junit>
@@ -46,7 +52,7 @@
   <target name="compile-test" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${test.dir}" listfiles="yes" includes="**/*Test.java"
+    <javac srcdir="${test.src}" destdir="${test.classes}" listfiles="yes" includes="**/*Test.java"
 	   includeantruntime="no">
 			<classpath refid="classpath.test2" />
 		</javac>
@@ -67,11 +73,7 @@
     <jar jarfile="${dist}/lib/JavaCard-${DSTAMP}.jar" basedir="${build}"/>
   </target>
 
-  <target name="clean"
-        description="clean up" >
-    <!-- Delete the ${build} and ${dist} directory trees -->
-    <delete dir="${build}"/>
-    <delete dir="${dist}"/>
-    <delete dir="${test.dir}"/>
+  <target name="clean" description="clean up" >
+		 <delete dir="${build.dir}"/>
   </target>
 </project>
