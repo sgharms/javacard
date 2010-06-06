@@ -35,7 +35,7 @@
 
   <target name="test" depends="compile-test" description="Use JUnit for TDD">
 		<echo>Attempting to run JUnit for tests from [${test.dir}].</echo>
-		<junit>
+		<junit printsummary="on">
 			<test name="com.stevengharms.javacard.JavaCardTest" />
     </junit>
   </target>
