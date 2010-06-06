@@ -34,20 +34,9 @@
   </target>
 
   <target name="test" depends="compile-test" description="Use JUnit for TDD">
-		<echo>Attempting to run JUnit for tests.</echo>
+		<echo>Attempting to run JUnit for tests from [${test.dir}].</echo>
 		<junit>
-			<formatter type="plain" usefile="false"/>
-      <classpath>
-        <path refid="classpath.test2"/>
-      </classpath>
-		  <batchtest fork="yes" haltonfailure="yes">
-		    <fileset dir="${test.dir}">
-		      <include name="**/*Test.java"/>
-		      <!-- <exclude name="**/AllTests.java"/> -->
-		    </fileset>
-		  </batchtest>
-
-			<!-- <test name="com.stevengharms.javacard.JavaCardTest" /> -->
+			<test name="com.stevengharms.javacard.JavaCardTest" />
     </junit>
   </target>
 
