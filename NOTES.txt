@@ -51,3 +51,10 @@ Wow, that's a mouthful. Maybe ant can help?
 ANT
 ------------------------------------------------------------------------------
 
+------------------------------------------------------------------------------
+GIT
+------------------------------------------------------------------------------
+Delete a remote repository's branch:
+  git push origin :frobozz
+Delete a remote branch
+  git branch -rd origin/anttune
