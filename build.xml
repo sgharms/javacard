@@ -17,14 +17,7 @@
 	<property name="junit.file.location" value="${junit.home}/${junit.FQN}/${junit.FQN}.jar" /> 
 	<property name="junit.location" value="${junit.home}/${junit.FQN}/${junit.FQN}" /> 
 
-
 	<path id="classpath.test">
-    <pathelement location="${junit.file.location}" />
-    <pathelement path="${junit.location}" />
-    <pathelement path="${test.dir}" />
-  </path>
-
-	<path id="classpath.test2">
     <fileset dir="${junit.home}/${junit.FQN}">
       <include name="*.jar" />
     </fileset>
@@ -46,7 +39,7 @@
 		<echo>Attempting to run JUnit for tests from [${test.classes}].</echo>
 		<junit printsummary="yes" haltonfailure="yes">
 			<classpath>
-				<path refid="classpath.test2" />
+				<path refid="classpath.test" />
 			</classpath>
 			<formatter type="failure" usefile="false"/>
 			<test name="com.stevengharms.javacard.JavaCardTest" />
@@ -61,7 +54,7 @@
     <!-- Compile the java code from ${src} into ${build} -->
     <javac srcdir="${test.src}" destdir="${test.classes}" listfiles="yes" includes="**/*Test.java"
 	   includeantruntime="no">
-			<classpath refid="classpath.test2" />
+			<classpath refid="classpath.test" />
 		</javac>
   </target>
   
