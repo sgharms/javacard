@@ -42,10 +42,9 @@
 				<path refid="classpath.test" />
 			</classpath>
 			<formatter type="failure" usefile="false"/>
-			<test name="com.stevengharms.javacard.JavaCardTest" />
-			<!-- <batchtest fork="yes" todir="."> 
+			<batchtest fork="yes" todir="."> 
 				<fileset dir="${test.src}" includes="**/*Test.java"/>
-			</batchtest> -->
+			</batchtest> 
     </junit>
   </target>
 
