@@ -58,3 +58,6 @@ Delete a remote repository's branch:
   git push origin :frobozz
 Delete a remote branch
   git branch -rd origin/anttune
+
+Apply a patch:
+  git am --ignore-whitespace < thedoug.txt

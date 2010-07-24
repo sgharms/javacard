@@ -10,4 +10,9 @@ public class JavaCardTest {
    public void testTheTruth() {
      assertTrue("True should be true", true);
    }
+
+   @Test 
+   public void testTheTruth2() {
+     assertTrue("True should be true", true);
+   }
 }
