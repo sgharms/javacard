@@ -51,6 +51,95 @@ Wow, that's a mouthful. Maybe ant can help?
 ANT
 ------------------------------------------------------------------------------
 
+Here's a primordial ant.xml file
+
+<project default="main">
+  <target name="main" depends="compile, execute">
+  </target>
+  <target name="execute">
+    <java classname="Project" classpath="."/>
+  </target>
+  <target name="compile">
+    <echo> Compiling the file </echo>
+    <javac srcdir="." />
+  </target>
+</project>
+
+----
+
+INTRODUCTION
+============
+Ant is an XML based configuration and behavior tool.  It functions a lot like
+a shell script but, being Java, it is cross-platform portable and that is
+seriously handy.  This is much better than trying to script in arcane garbage
+languages (DOS BAT) as compared to rich languages (bash shell).  It provides a
+common medium that can be transported across, and this is a good thing.
+
+CHAPTER 1
+=========
+
+Basics:
+  * Default name is _build.xml_, if you just type {{ant}} this is what is
+  sought.
+  * Anatomy of a build file
+    * Every Ant file contains exactly one "Project"
+      * name
+      * [REQD] default
+      * basedir
+    * The file may contain n-many "Targets."  These are groups of tasks
+      * [REDQ] name
+      * [IMP] depends: comma-separated list of target to be executed before
+      this one
+      * if: name of a property that needs to be set before running this task
+      * unless:  name of property that can _not_ be set bofer running 
+      * description
+    * Ant "Targets" are populated with "Tasks," of which there are a plethora.
+      You can consult the documentation to get them
+    * Ant "Properties" are variables
+      * You define it by the <property>  element
+      * You insert its value by ${property}
+      * Oodles of properties can be had that echo the System.getProperties()
+      method in Java.    
+  * Invocation
+    * ant
+    * ant _targetname_
+    * ant _targetname_ _target2_ _targetN_
+    * To supress the run-ability of a target, specify its name with a '-' to
+    make it "private"
+    * ant -f alternativeFileName
+    * Handy CLI options
+      * -verbose
+      * -debug
+      * -projecthelp (lists the targets available)
+      * -logfile filename (log the output)
+        Similarly, you can use the <record> task to get logging too
+
+CHAPTER 2
+=========
+
+* Using Properties to Control Tasks
+  * In Java, if/then occurs in one line of code.  In Ant the condition must be
+  set in one step and the evaluation of that condition must occur elsewhere.
+    * The condition is set in a task called <condition>
+      * Allows 1-n conditions (called _criteria_) to be specified
+      * If all criteria evaluate true, then a property is set; that property
+      is defined in the <condition> task
+      * The essential thing to note is that <conditions> always set a property
+      value.  Within the condition you have a wide variety of options <not>
+      and <and>, etc.
+    * Conditional action
+      * Conditions can be set on having been met, or not having been met. The
+      tasks that take if= or unless= are <target>, <patternset>, and <fail>
+      * Some tasks set properties as a side-effect:
+        * <available>
+    * Property files are commonly used to define multiple properties
+      * This can be handled on the CLI with -propertyfile option
+      * You can "source" a property file with <property file="" />
+      * !!! YOU CANNOT REDEFINE THE VALUE IN A PROPERTY !!!
+    * There exist another primary data storage entity a TYPE.  It is usually
+    assigned to a PROPERTY, but it's more complex data than a simple x=y
+
+
 ------------------------------------------------------------------------------
 GIT
 ------------------------------------------------------------------------------
