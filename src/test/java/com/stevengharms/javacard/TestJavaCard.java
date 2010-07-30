@@ -24,4 +24,10 @@ public class TestJavaCard extends TestCase {
 		assertTrue(j.getBack().equals("My back"));
 	}
 	
+	public void testSeters() throws Exception {
+		j.setFront("Hobo");
+		j.setBack("McMuffin");
+		assertTrue(j.getFront().equals("Hobo"));
+		assertTrue(j.getBack().equals("McMuffin"));
+	}
 }

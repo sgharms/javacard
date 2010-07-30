@@ -18,7 +18,6 @@ public class JavaCardApp{
 	public static void main (String[] args)
 	{
 		JavaCardApp app = new JavaCardApp();
-		System.out.println("Hello, JavaCard!");
 	}
 	
 

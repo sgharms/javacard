@@ -22,4 +22,8 @@ public class Card{
 
 	public Object getBack(){return this.cardBack;}
 	public void   setBack(Object b){this.cardBack = b;}
+	
+	public String toString(){
+		return String.format("%s has [%s] and [%s]\n", getClass().getName(), this.getFront(), this.getBack());
+	}
 }
