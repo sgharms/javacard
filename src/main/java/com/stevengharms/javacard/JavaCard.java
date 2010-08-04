@@ -1,6 +1,8 @@
 package com.stevengharms.javacard;
 
-public class JavaCard extends Card{
+import java.io.*;
+
+public class JavaCard extends Card implements Serializable{
 	public JavaCard(Object f, Object b){
 		super(f,b);
 	}

@@ -1,8 +1,9 @@
 package com.stevengharms.javacard;
 
 import java.util.Iterator;
+import java.io.*;
 
-public class JavaCardDeck extends Deck 
+public class JavaCardDeck extends Deck implements Serializable
 {
 	public JavaCardDeck()
 	{

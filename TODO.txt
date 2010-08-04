@@ -1,2 +1,2 @@
-- Add a GUI
-- Add serialization
+- Wire up buttons
+- Implement serialization of a JavaCardDeck
