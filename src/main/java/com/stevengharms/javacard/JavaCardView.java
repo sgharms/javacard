@@ -21,10 +21,16 @@ public class JavaCardView{
 		westTextPanel.setSize(200,200);
 		configureTextAreas(
 			westTextPanel, new String[]{"Question","Answer"});
+			
+		//South container
+		JPanel southNavigationPanel = new JPanel();
+		configureButtons(
+		  southNavigationPanel, new String[]{"Back", "Right", "Wrong", "Forward"});
 		
 		// Attach the components 
 		frame.getContentPane().add(BorderLayout.EAST, eastButtonPanel);
 		frame.getContentPane().add(BorderLayout.WEST, westTextPanel);
+		frame.getContentPane().add(BorderLayout.SOUTH, southNavigationPanel);
 
 		// Read 'em and weep
 		frame.setVisible(true);
