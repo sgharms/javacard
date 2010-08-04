@@ -10,14 +10,14 @@ public class JavaCardView{
 		frame.setSize(500,500);
 		
 		// East container
-		JPanel eastButtonPanel = new JPanel(new GridLayout(2,1) );
+		JPanel eastButtonPanel = new JPanel(new GridLayout(2,1));
 		eastButtonPanel.setSize(120,120);
 	    configureButtons(
 	      eastButtonPanel, new String[]{"Add","Delete"});
 		
 		
 		// West container
-		JPanel westTextPanel = new JPanel();
+		JPanel westTextPanel = new JPanel(new GridLayout(2,1) );
 		westTextPanel.setSize(200,200);
 		configureTextAreas(
 			westTextPanel, new String[]{"Question","Answer"});
