@@ -26,6 +26,13 @@
           <target>1.6</target>
         </configuration>
       </plugin>
+      <plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<configuration>
+				  <mainClass>com.stevengharms.javacard.JavaCardApp</mainClass>
+				</configuration>
+			</plugin>
     </plugins>
   </build>
 </project>
