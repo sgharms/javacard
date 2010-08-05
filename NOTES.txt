@@ -150,3 +150,17 @@ Delete a remote branch
 
 Apply a patch:
   git am --ignore-whitespace < thedoug.txt
+
+See changes are in the patch. You can do this easily with git apply
+	git apply --stat fix_empty_poster.patch:
+
+Test the patch before you actually apply it:
+	git apply --check fix_empty_poster.patch
+
+Create a patch:
+git format-patch <diff-producing references> --stdout > fix_empty_poster.patch
+
+Retrieve a file from a previous revision:
+git checkout <ref> -- <files...>
+
+
