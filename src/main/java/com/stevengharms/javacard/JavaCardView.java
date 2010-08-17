@@ -2,6 +2,7 @@ package com.stevengharms.javacard;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class JavaCardView{
 	private JButton button_add 		= new JButton("Add");
@@ -15,6 +16,51 @@ public class JavaCardView{
     private JButton button_wrong 	= new JButton("Wrong!");
 	private JButton button_forward 	= new JButton(">");
     private JButton button_exit 	= new JButton("Exit");
+
+	/* Button Listeners */
+	
+	class ButtonBackListener implements ActionListener {
+		public void actionPerformed (ActionEvent e){
+			System.out.println("I got clicked!");
+		}
+	}
+
+	class ButtonRightListener implements ActionListener {
+		public void actionPerformed (ActionEvent e){
+			System.out.println("I got clicked!");
+		}
+	}
+
+	class ButtonWrongListener implements ActionListener {
+		public void actionPerformed (ActionEvent e){
+			System.out.println("I got clicked!");
+		}
+	}
+
+	class ButtonForwardListener implements ActionListener {
+		public void actionPerformed (ActionEvent e){
+			System.out.println("I got clicked!");
+		}
+	}
+
+	class ButtonExitListener implements ActionListener {
+		public void actionPerformed (ActionEvent e){
+			System.out.println("I got clicked!");
+		}
+	}
+
+	class ButtonAddListener implements ActionListener {
+		public void actionPerformed (ActionEvent e){
+			System.out.println("I got clicked!");
+		}
+	}
+
+	class ButtonDelListener implements ActionListener {
+		public void actionPerformed (ActionEvent e){
+			System.out.println("I got clicked!");
+		}
+	}
+
 
 	
 	public JavaCardView(){
@@ -45,17 +91,28 @@ public class JavaCardView{
 		frame.getContentPane().add(BorderLayout.CENTER, westTextPanel);
 		frame.getContentPane().add(BorderLayout.SOUTH, southNavigationPanel);
 
+		// Assign listeners
+		button_add.addActionListener(new ButtonAddListener());
+		button_del.addActionListener(new ButtonDelListener());
+		
+		button_back.addActionListener(new ButtonBackListener());
+		button_right.addActionListener(new ButtonRightListener());
+		button_wrong.addActionListener(new ButtonWrongListener());
+		button_forward.addActionListener(new ButtonAddListener());
+		button_exit.addActionListener(new ButtonExitListener());
+
+		
 		// Read 'em and weep
 		frame.setVisible(true);
 	}
 	
-	public Container configureButtons(Container c, JButton[] jcomps){
+	private Container configureButtons(Container c, JButton[] jcomps){
 		for (int i=0; i< jcomps.length; i++){
 			c.add(jcomps[i]);
 		}
 		return c;
 	}
-	public Container configureTextAreas(Container c, JTextArea[] jcomps){
+	private Container configureTextAreas(Container c, JTextArea[] jcomps){
 		for (int i=0; i< jcomps.length; i++){
 			JTextArea jta = new JTextArea();
 			jta.setLineWrap(true);
@@ -63,7 +120,7 @@ public class JavaCardView{
 			jta.setBorder(BorderFactory.createLineBorder(Color.black));
 
 			JLabel jl = new JLabel("TODO");
-			System.out.println(jcomps[i]);
+			// System.out.println(jcomps[i]);
 			jl.setSize(5,1);
 			jl.setLabelFor(jta);
 			
@@ -72,5 +129,13 @@ public class JavaCardView{
 			jcomps[i]=jta;
 		}
 		return c;
+	}
+	
+	public void setQuestion(String s){
+		jtext_ques.setText(s);
+	}
+	
+	public void setAnswer(String s){
+		jtext_answer.setText(s);
 	}
 }
