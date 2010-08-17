@@ -18,7 +18,6 @@ public class JavaCardApp{
 		
 		// View Object	
 		view          = new JavaCardView();	
-		view.setQuestion("Hello, Train Riding Fuckers!!");
 	}
 	
 	public static void main (String[] args)

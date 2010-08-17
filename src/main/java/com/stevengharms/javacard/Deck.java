@@ -56,7 +56,7 @@ public class Deck
         following snippet dumps the contents of c into a newly allocated array
         of String whose length is identical to the number of elements in c.
         String[] a = c.toArray(new String[0]);
-
+    
 		*/
 		return cards.toArray(new Card[0]);
 		
