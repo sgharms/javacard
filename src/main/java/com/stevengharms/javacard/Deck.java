@@ -9,7 +9,7 @@ public class Deck
 	
 	public Deck()
 	{
-		cards = new ArrayList();
+		cards = new ArrayList<Card>();
 	}
 	
 	// Open and close a deck
