@@ -1,3 +1,14 @@
 - Wire up buttons
 - Implement serialization of a JavaCardDeck
+
 - Fix the GUI's widths
+- Take out un-needed buttons
+- Move button tasks to anonymous classes / functions
+new ActionListener() {
+  ....
+}
+
+- Question getter/setter to view
+- Answer getter/setter to view
+- Make a pass an array with q&a
+
