@@ -154,7 +154,20 @@ public class JavaCardView{
 		jtext_ques.setText(s);
 	}
 	
+	public String getQuestion(){
+		return jtext_ques.getText();
+	}
+	
 	public void setAnswer(String s){
 		jtext_answer.setText(s);
+	}
+	
+	public String getAnswer(){
+		return jtext_answer.getText();
+	}
+	
+	public void setQuestionAndAnswer(String q, String a){
+		this.setQuestion(q);
+		this.setAnswer(a);
 	}
 }

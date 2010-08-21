@@ -18,6 +18,7 @@ public class JavaCardApp{
 		
 		// View Object	
 		view          = new JavaCardView();	
+
 	}
 	
 	public static void main (String[] args)

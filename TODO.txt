@@ -1,9 +1,9 @@
+/* UI */
 - Wire up buttons
-- Implement serialization of a JavaCardDeck
-
 - If the deck is empty, hi-light the first question
 
-- Question getter/setter to view
-- Answer getter/setter to view
-- Make a pass an array with q&a
+/* DATA */
+- Implement serialization of a JavaCardDeck
+
+
 
