@@ -9,7 +9,7 @@ public class JavaCard extends Card implements Serializable{
 	public JavaCard(){
 		super();
 	}
-	public JavaCard(Object[] o){
+	public JavaCard(Object[] o) throws IllegalArgumentException{
 		super(o);
 	}
 }

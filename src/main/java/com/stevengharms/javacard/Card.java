@@ -10,23 +10,42 @@ public class Card{
 		this.cardBack  = "Placeholder back";
 	}
 	
-	public Card(Object f, Object b){
-		this.cardFront = f;
-		this.cardBack  = b;
+	public Card(Object f, Object b) throws IllegalArgumentException{
+		this.setFront(f);
+		this.setBack(b);
 	}
 	
-	public Card(Object[] qa){
+	public Card(Object[] qa) throws IllegalArgumentException{
+		System.out.println("passed through here");
 		this.setFront(qa[0]);
-		this.setBack(qa[1]);
+		this.setBack(qa[1]);	
 	}
 
 	/* Getters and Setters */
 	
 	public Object getFront(){return this.cardFront;}
-	public void   setFront(Object f){this.cardFront = f;}
+	
+	public void   setFront(Object f) throws IllegalArgumentException
+	{
+		if ((f == "") ||
+			f.equals(null) || 
+			((String)f).isEmpty() ){
+			throw new IllegalArgumentException("The field cannot be null");
+		}
+		
+		this.cardFront = f;
+		
+	}
 
 	public Object getBack(){return this.cardBack;}
-	public void   setBack(Object b){this.cardBack = b;}
+	public void   setBack(Object b) throws IllegalArgumentException{
+		if ((b == "") ||
+			b.equals(null) || 
+			((String)b).isEmpty() ){
+			throw new IllegalArgumentException("The field cannot be null");
+		}		
+		this.cardBack = b;
+	}
 	
 	public String toString(){
 		return String.format("%s has [%s] and [%s]\n", getClass().getName(), this.getFront(), this.getBack());

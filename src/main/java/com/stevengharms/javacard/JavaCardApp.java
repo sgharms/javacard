@@ -28,6 +28,13 @@ public class JavaCardApp{
 	}
 	
 	public void addNewCard(String[] qa){
-		sourceDeck.addCard(new JavaCard(qa));
+		try{
+			sourceDeck.addCard(new JavaCard(qa));			
+		}
+		catch (Exception e){
+			System.err.println("ZABU: Caught "+e);
+			view.giveFocusToEmptyTextArea();
+		}
+
 	}
 }
