@@ -157,11 +157,15 @@ public class JavaCardView{
 		button_exit.addActionListener(new ButtonExitListener());
 		
 		for (JTextArea j : new JTextArea[]{jtext_ques, jtext_answer}){
+			j.setFocusTraversalKeysEnabled(true);
 			j.addKeyListener(
 			  new KeyListener(){
 				public void keyPressed(KeyEvent k){
 					if(k.getKeyCode() == KeyEvent.VK_TAB ){
+						JTextArea src = (JTextArea) k.getSource();
+						String text = src.getText();
 						new FocusPolicy((JComponent)k.getSource()).nextItem().requestFocus();
+						src.setText(text);
 					}
 				}
 				public void keyReleased(KeyEvent k){
