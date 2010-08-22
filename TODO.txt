@@ -1,6 +1,8 @@
 /* UI */
 - Wire up buttons
 - If the deck is empty, hi-light the first question
+- Handle TAB event out of the text areas
+- Handle tab order UI magics
 
 /* DATA */
 - Implement serialization of a JavaCardDeck

@@ -14,6 +14,11 @@ public class Card{
 		this.cardFront = f;
 		this.cardBack  = b;
 	}
+	
+	public Card(Object[] qa){
+		this.setFront(qa[0]);
+		this.setBack(qa[1]);
+	}
 
 	/* Getters and Setters */
 	

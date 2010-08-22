@@ -18,4 +18,5 @@ public class JavaCardDeck extends Deck implements Serializable
 			System.out.println(itr.next().toString());
 		}
 	}
+	
 }
