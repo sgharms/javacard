@@ -160,20 +160,15 @@ public class JavaCardView{
 			j.setFocusTraversalKeysEnabled(true);
 			j.addKeyListener(
 			  new KeyListener(){
-				JTextArea src = null;
-				String   text;
-				
 				public void keyPressed(KeyEvent k){
 					if(k.getKeyCode() == KeyEvent.VK_TAB ){
 						k.consume();
 						new FocusPolicy((JComponent)k.getSource()).nextItem().requestFocus();
 					}
-
 				}
 				public void keyReleased(KeyEvent k){
 				}
 				public void keyTyped(KeyEvent k){
-					k.consume();
 				}				
 			}
 			);
