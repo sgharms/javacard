@@ -25,13 +25,20 @@ public class Deck
 	// State maintenance
 	void shuffle()
 	{
- 		// System.out.println("Before shuffle:" + cards.toString());
 		Collections.shuffle(cards);
- 		// System.out.println("After shuffle:" + cards.toString());
 	}
 	
 	void addCard(Card c){
-		cards.add(c);
+		try
+		{
+			cards.add(c);
+			System.out.println("Just added the card " + c);	
+			System.out.println("The deck looks like:" + cards);		
+		}
+		catch (Exception e)
+		{
+			System.out.println("Was not able to add the card "+ c + " because "+ e);
+		}
 	}
 	
 	Card get(int i){

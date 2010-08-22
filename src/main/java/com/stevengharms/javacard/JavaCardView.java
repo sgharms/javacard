@@ -4,7 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+
 public class JavaCardView{
+	
+	// Access to the controller
+	JavaCardApp app = null;
+	
 	
 	// This makes the big box's, with the minimize, maximize, close buttons 
 	// size change
@@ -19,8 +24,8 @@ public class JavaCardView{
 	private JButton   button_add 	 = new JButton("Add");
 	private JButton   button_del 	 = new JButton("Delete");	
 
-	private JTextArea jtext_ques	 = new JTextArea();
-	private JTextArea jtext_answer 	 = new JTextArea();
+	private JTextArea jtext_ques	 = new JTextArea("question");
+	private JTextArea jtext_answer 	 = new JTextArea("answer");
 
 	private JButton   button_back 	 = new JButton("<");
     private JButton   button_right 	 = new JButton("Right!");
@@ -29,6 +34,34 @@ public class JavaCardView{
     private JButton   button_exit 	 = new JButton("Exit");
 
 	/* Button Listeners */
+	private class FocusPolicy{
+		JComponent j;
+
+		FocusPolicy(){
+			super();
+		}
+		
+		FocusPolicy(JComponent j){
+			this.j=j;
+		}
+		
+		public JComponent nextItem(){
+			j = this.j;
+			
+			if (j.getName() == "jtext_ques")
+			{
+				return jtext_answer;
+			}
+			else if (j.getName() == "jtext_answer")
+			{
+				return button_forward;
+			}
+			else
+			{
+				throw new IllegalArgumentException();
+			}
+		}
+	}
 	
 	class ButtonBackListener implements ActionListener {
 		public void actionPerformed (ActionEvent e){
@@ -62,7 +95,11 @@ public class JavaCardView{
 
 	class ButtonAddListener implements ActionListener {
 		public void actionPerformed (ActionEvent e){
-			System.out.println("I got clicked!");
+			System.out.println("Add clicked!");
+			app.addNewCard(getQuestionAndAnswer());
+			jtext_ques.setText("");
+			jtext_answer.setText("");
+			jtext_ques.requestFocus();
 		}
 	}
 
@@ -73,6 +110,10 @@ public class JavaCardView{
 	}
 
 
+	public JavaCardView(JavaCardApp jca){
+		this();
+		this.app = jca;
+	}
 	
 	public JavaCardView(){
 		// Top level container
@@ -86,6 +127,10 @@ public class JavaCardView{
 		
 		westTextPanel.setMaximumSize(this.WEST_PANEL_SIZE);
 		westTextPanel.setPreferredSize(this.WEST_PANEL_SIZE);
+		
+		jtext_ques.setName("jtext_ques");
+		jtext_answer.setName("jtext_answer");
+		
 		configureTextAreas(
 			westTextPanel, new JTextArea[]{jtext_ques, jtext_answer},
 						   new String[]{"Question", "Answer"});
@@ -110,6 +155,23 @@ public class JavaCardView{
 		button_wrong.addActionListener(new ButtonWrongListener());
 		button_forward.addActionListener(new ButtonAddListener());
 		button_exit.addActionListener(new ButtonExitListener());
+		
+		for (JTextArea j : new JTextArea[]{jtext_ques, jtext_answer}){
+			j.addKeyListener(
+			  new KeyListener(){
+				public void keyPressed(KeyEvent k){
+					if(k.getKeyCode() == KeyEvent.VK_TAB ){
+						new FocusPolicy((JComponent)k.getSource()).nextItem().requestFocus();
+					}
+				}
+				public void keyReleased(KeyEvent k){
+				}
+				public void keyTyped(KeyEvent k){
+				}				
+			}
+			);
+		}
+		
 
 		// Read 'em and weep
 		frame.setVisible(true);
@@ -169,5 +231,9 @@ public class JavaCardView{
 	public void setQuestionAndAnswer(String q, String a){
 		this.setQuestion(q);
 		this.setAnswer(a);
+	}
+	
+	public String[] getQuestionAndAnswer(){
+		return new String[] {getQuestion(), getAnswer()};
 	}
 }
