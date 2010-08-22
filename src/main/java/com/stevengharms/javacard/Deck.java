@@ -2,6 +2,7 @@ package com.stevengharms.javacard;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import javax.swing.text.DefaultEditorKit.*;
 
 public class Deck
 {
@@ -28,17 +29,37 @@ public class Deck
 		Collections.shuffle(cards);
 	}
 	
-	void addCard(Card c){
+	public boolean exists(int i){
+		try{
+		  cards.get(i);
+		}catch (IndexOutOfBoundsException e){
+			return false;
+		}
+		return true;
+	}
+	
+	public int indexOf(Object o){
+		return cards.indexOf(o);
+	}
+	
+	boolean addCard(Card c) throws UnsupportedOperationException,ClassCastException,
+								   NullPointerException,IllegalArgumentException,IllegalStateException{
+		boolean result = false;
+		
 		try
 		{
-			cards.add(c);
-			System.out.println("Just added the card " + c);	
-			System.out.println("The deck looks like:" + cards);		
+			result =  cards.add(c);
 		}
 		catch (Exception e)
 		{
 			System.out.println("Was not able to add the card "+ c + " because "+ e);
+			
 		}
+		return result ? true : false;
+	}
+	
+	public boolean removeCard(Card c){
+		return cards.remove(c);
 	}
 	
 	Card get(int i){
@@ -48,6 +69,21 @@ public class Deck
 	public int size(){
 		return cards.size();
 	}
+	
+	public Card cardPriorTo(Card c){
+		int post = cards.indexOf(c);
+		if (post == 0){
+			System.out.println("Beep!  At first");
+			return c;
+		}
+		return cards.get(post-1);
+	}
+
+	public Card cardAfter(Card c){
+		int post = cards.indexOf(c);
+		return cards.get(post+1);
+	}
+
 	
 	public Card[] getCards(){
 		/*

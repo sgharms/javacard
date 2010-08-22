@@ -23,15 +23,12 @@ public class JavaCardView{
 	
 	private JButton   button_add 	 = new JButton("Add");
 	private JButton   button_del 	 = new JButton("Delete");	
-
-	private JTextArea jtext_ques	 = new JTextArea("question");
-	private JTextArea jtext_answer 	 = new JTextArea("answer");
-
 	private JButton   button_back 	 = new JButton("<");
-    private JButton   button_right 	 = new JButton("Right!");
-    private JButton   button_wrong 	 = new JButton("Wrong!");
 	private JButton   button_forward = new JButton(">");
-    private JButton   button_exit 	 = new JButton("Exit");
+	private JButton   button_new     = new JButton("+");
+	
+	private JTextArea jtext_ques	 = new JTextArea();
+	private JTextArea jtext_answer 	 = new JTextArea();
 
 	/* Button Listeners */
 	private class FocusPolicy{
@@ -62,10 +59,40 @@ public class JavaCardView{
 			}
 		}
 	}
-	
+
+	class ButtonNewListener implements ActionListener {
+		JavaCardView viewClass;
+		
+		ButtonNewListener(){
+			super();
+		}
+		
+		ButtonNewListener(JavaCardView v){
+			viewClass = v;
+		}
+		
+		public void actionPerformed (ActionEvent e){
+			System.out.println("New got clicked!");
+			viewClass.prepForNewCard();
+			viewClass.update();
+		}
+	}
+		
 	class ButtonBackListener implements ActionListener {
+		JavaCardView viewClass;
+		
+		ButtonBackListener(){
+			super();
+		}
+		
+		ButtonBackListener(JavaCardView v){
+			viewClass = v;
+		}
+		
 		public void actionPerformed (ActionEvent e){
 			System.out.println("Back got clicked!");
+			app.goToPreviousCard();
+			viewClass.update();
 		}
 	}
 
@@ -82,9 +109,22 @@ public class JavaCardView{
 	}
 
 	class ButtonForwardListener implements ActionListener {
-		public void actionPerformed (ActionEvent e){
-			System.out.println("I got clicked!");
+		JavaCardView viewClass;
+		
+		ButtonForwardListener(){
+			super();
 		}
+		
+		ButtonForwardListener(JavaCardView v){
+			viewClass = v;
+		}
+
+		public void actionPerformed (ActionEvent e){
+			System.out.println("Forward got clicked!");
+			app.goToSubsequentCard();
+			viewClass.update();
+		}
+		
 	}
 
 	class ButtonExitListener implements ActionListener {
@@ -94,19 +134,49 @@ public class JavaCardView{
 	}
 
 	class ButtonAddListener implements ActionListener {
+		JavaCardView viewClass;
+		
+		ButtonAddListener(){
+			super();
+		}
+		
+		ButtonAddListener(JavaCardView v){
+			viewClass = v;
+		}
+		
 		public void actionPerformed (ActionEvent e){
 			System.out.println("Add clicked!");
-			app.addNewCard(getQuestionAndAnswer());
-			jtext_ques.setText("");
-			jtext_answer.setText("");
-			jtext_ques.requestFocus();
+			try{
+				app.addNewCard(getQuestionAndAnswer());				
+				viewClass.update();
+			}
+			catch (NullPointerException n){
+				System.out.println("Caught a null exception!");
+			}
 		}
 	}
 
 	class ButtonDelListener implements ActionListener {
-		public void actionPerformed (ActionEvent e){
-			System.out.println("I got clicked!");
+		JavaCardView viewClass;
+		
+		ButtonDelListener(){
+			super();
 		}
+		
+		ButtonDelListener(JavaCardView v){
+			viewClass = v;
+		}
+		
+		public void actionPerformed (ActionEvent e){
+			System.out.println("Delete clicked!");
+			try{
+				viewClass.deleteCurrentCard();
+				viewClass.update();
+			}
+			catch (NullPointerException n){
+				System.out.println("DELETE caught a null exception!");
+			}
+		}		
 	}
 
 
@@ -138,7 +208,7 @@ public class JavaCardView{
 		//South container
 		JPanel southNavigationPanel = new JPanel();
 		configureButtons(
-			      southNavigationPanel, new JButton[]{button_back,button_add,button_del,button_forward} );
+			      southNavigationPanel, new JButton[]{button_back,button_add,button_del,button_forward,button_new} );
 		
 		// Attach the components 
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
@@ -147,14 +217,13 @@ public class JavaCardView{
 
 
 		// Assign listeners
-		button_add.addActionListener(new ButtonAddListener());
-		button_del.addActionListener(new ButtonDelListener());
+		button_add.addActionListener(new ButtonAddListener(this));
+		button_del.addActionListener(new ButtonDelListener(this));
+		button_new.addActionListener(new ButtonNewListener(this));
 		
-		button_back.addActionListener(new ButtonBackListener());
-		button_right.addActionListener(new ButtonRightListener());
-		button_wrong.addActionListener(new ButtonWrongListener());
-		button_forward.addActionListener(new ButtonAddListener());
-		button_exit.addActionListener(new ButtonExitListener());
+		button_back.addActionListener(new ButtonBackListener(this));
+		button_forward.addActionListener(new ButtonForwardListener(this));
+
 		
 		for (JTextArea j : new JTextArea[]{jtext_ques, jtext_answer}){
 			j.setFocusTraversalKeysEnabled(true);
@@ -177,6 +246,7 @@ public class JavaCardView{
 
 		// Read 'em and weep
 		frame.setVisible(true);
+		this.update();
 	}
 	
 	private Container configureButtons(Container c, JButton[] jcomps){
@@ -242,6 +312,73 @@ public class JavaCardView{
 	protected void giveFocusToEmptyTextArea(){
 		if (jtext_ques.getText().isEmpty()) jtext_ques.requestFocus();
 		if (jtext_answer.getText().isEmpty()) jtext_answer.requestFocus();		
+	}
+	
+	public void deleteCurrentCard(){
+		System.out.println("Right now i have " + app.getCurrentCard());
+		System.out.println("..and right now I have " + app.getDeck());
+		app.deleteCurrentCard();
+		jtext_ques.requestFocus();
+	}
+	
+	public void update(){
+		System.out.println("Update\n----------------------");
+		
+		Card curr = null;
+		try{
+			curr = app.getCurrentCard();
+			/* OK, so we have a currentCard */
+			this.setQuestion((String)curr.getFront());
+			this.setAnswer((String)curr.getBack());
+			
+			/* Adjust the buttons as needed */
+			/* It doesn't make sense for fwd or back, but new and delete should be enabled */
+			if (app.getDeck().size() == 1){
+				button_del.setEnabled(true);
+				button_new.setEnabled(true);
+			}
+			
+			if (app.getDeck().size() > 1){
+				button_del.setEnabled(true);
+				button_new.setEnabled(true);
+				button_back.setEnabled(true);
+
+				System.out.println("EXISTENCE TEST:  " + app.nextCardExists());
+
+				if (app.nextCardExists()){
+					System.out.println("Next Exists ");
+					button_forward.setEnabled(true);
+				}else{
+					System.out.println("next does not exist");
+					button_forward.setEnabled(false);					
+				}
+				
+				if (app.priorCardExists()){
+					System.out.println("Previous Exists");
+					button_back.setEnabled(true);
+				}else{
+					System.out.println("Previous does not exist");
+					button_back.setEnabled(false);
+				}
+
+			}
+
+		}catch (NullPointerException e){
+			System.out.println("There is no current card! " + e);
+			this.setQuestionAndAnswer("","");
+			this.button_del.setEnabled(false);
+			this.button_forward.setEnabled(false);
+			this.button_back.setEnabled(false);
+			this.button_back.setEnabled(false);
+		}
+		catch (Exception e){
+			System.out.println("Exception! " + e);
+		}
+	}
+	
+	public void prepForNewCard(){
+		app.nullifyCurrentCard();
+		jtext_ques.requestFocus();
 	}
 	
 }
