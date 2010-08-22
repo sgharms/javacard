@@ -238,4 +238,10 @@ public class JavaCardView{
 	public String[] getQuestionAndAnswer(){
 		return new String[] {getQuestion(), getAnswer()};
 	}
+
+	protected void giveFocusToEmptyTextArea(){
+		if (jtext_ques.getText().isEmpty()) jtext_ques.requestFocus();
+		if (jtext_answer.getText().isEmpty()) jtext_answer.requestFocus();		
+	}
+	
 }
