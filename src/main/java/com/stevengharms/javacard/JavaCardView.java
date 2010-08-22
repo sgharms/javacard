@@ -54,7 +54,7 @@ public class JavaCardView{
 			}
 			else if (j.getName() == "jtext_answer")
 			{
-				return button_forward;
+				return button_add;
 			}
 			else
 			{
