@@ -60,12 +60,12 @@ public class JavaCardApp{
 	}
 	
 	public void deleteCurrentCard() throws NullPointerException{
+		int reset_index = sourceDeck.indexOf(currentCard);
 		boolean result = sourceDeck.removeCard(currentCard);
 		if (! result){
 			throw new NullPointerException();
 		}
-		currentCard = null;
-		// System.out.println("The ruslt was " + result);
+		currentCard = sourceDeck.get(reset_index);
 	}
 	
 	public void setCurrentCard(Card c){
