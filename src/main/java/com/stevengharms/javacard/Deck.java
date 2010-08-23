@@ -3,10 +3,11 @@ package com.stevengharms.javacard;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.text.DefaultEditorKit.*;
+import java.io.*;
 
-public class Deck
+public class Deck implements Serializable
 {
-	ArrayList<Card> cards;
+	private ArrayList<Card> cards;
 	
 	public Deck()
 	{
