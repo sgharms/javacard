@@ -1,6 +1,8 @@
 package com.stevengharms.javacard;
 
-public class Card{
+import java.io.*;
+
+public class Card implements Serializable{
 	private Object cardFront;
 	private Object cardBack;
 	
