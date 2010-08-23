@@ -55,6 +55,10 @@ public class JavaCardApp{
 		return currentCard;
 	}
 	
+	public  void nullifyCurrentCard(){
+		currentCard = null;
+	}
+	
 	public void deleteCurrentCard() throws NullPointerException{
 		boolean result = sourceDeck.removeCard(currentCard);
 		if (! result){
@@ -69,14 +73,22 @@ public class JavaCardApp{
 	}
 	
 	public void goToPreviousCard(){
-		sourceDeck.cardPriorTo(currentCard);
+		currentCard = sourceDeck.cardPriorTo(currentCard);
 	}
 	public void goToSubsequentCard(){
-		Card c = sourceDeck.cardAfter(currentCard);
-		String p = "^Placeholder.*";
-		if (c.getFront().toString().matches(p) && 
-			c.getBack().toString().matches(p)){
-		}
+		currentCard = sourceDeck.cardAfter(currentCard);
+	}
+	
+	public boolean nextCardExists(){
+		int currIndex = sourceDeck.indexOf(currentCard);
+		boolean yesno = sourceDeck.exists(currIndex+1) ? true : false;
+		System.out.println("I say " + yesno);
+		return yesno;
+	}
+	
+	public boolean priorCardExists(){
+		int currIndex = sourceDeck.indexOf(currentCard);
+		return (currIndex == 0) ? false : true;
 	}
 	
 	public Deck getDeck(){

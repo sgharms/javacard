@@ -59,7 +59,25 @@ public class JavaCardView{
 			}
 		}
 	}
-	
+
+	class ButtonNewListener implements ActionListener {
+		JavaCardView viewClass;
+		
+		ButtonNewListener(){
+			super();
+		}
+		
+		ButtonNewListener(JavaCardView v){
+			viewClass = v;
+		}
+		
+		public void actionPerformed (ActionEvent e){
+			System.out.println("New got clicked!");
+			viewClass.prepForNewCard();
+			viewClass.update();
+		}
+	}
+		
 	class ButtonBackListener implements ActionListener {
 		JavaCardView viewClass;
 		
@@ -201,6 +219,7 @@ public class JavaCardView{
 		// Assign listeners
 		button_add.addActionListener(new ButtonAddListener(this));
 		button_del.addActionListener(new ButtonDelListener(this));
+		button_new.addActionListener(new ButtonNewListener(this));
 		
 		button_back.addActionListener(new ButtonBackListener(this));
 		button_forward.addActionListener(new ButtonForwardListener(this));
@@ -318,6 +337,31 @@ public class JavaCardView{
 				button_del.setEnabled(true);
 				button_new.setEnabled(true);
 			}
+			
+			if (app.getDeck().size() > 1){
+				button_del.setEnabled(true);
+				button_new.setEnabled(true);
+				button_back.setEnabled(true);
+
+				System.out.println("EXISTENCE TEST:  " + app.nextCardExists());
+
+				if (app.nextCardExists()){
+					System.out.println("Next Exists ");
+					button_forward.setEnabled(true);
+				}else{
+					System.out.println("next does not exist");
+					button_forward.setEnabled(false);					
+				}
+				
+				if (app.priorCardExists()){
+					System.out.println("Previous Exists");
+					button_back.setEnabled(true);
+				}else{
+					System.out.println("Previous does not exist");
+					button_back.setEnabled(false);
+				}
+
+			}
 
 		}catch (NullPointerException e){
 			System.out.println("There is no current card! " + e);
@@ -325,12 +369,16 @@ public class JavaCardView{
 			this.button_del.setEnabled(false);
 			this.button_forward.setEnabled(false);
 			this.button_back.setEnabled(false);
-			this.button_new.setEnabled(false);
+			this.button_back.setEnabled(false);
 		}
 		catch (Exception e){
 			System.out.println("Exception! " + e);
 		}
-		
+	}
+	
+	public void prepForNewCard(){
+		app.nullifyCurrentCard();
+		jtext_ques.requestFocus();
 	}
 	
 }

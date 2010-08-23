@@ -29,6 +29,14 @@ public class Deck
 		Collections.shuffle(cards);
 	}
 	
+	public boolean exists(int i){
+		try{
+		  cards.get(i);
+		}catch (IndexOutOfBoundsException e){
+			return false;
+		}
+		return true;
+	}
 	
 	public int indexOf(Object o){
 		return cards.indexOf(o);
@@ -73,10 +81,6 @@ public class Deck
 
 	public Card cardAfter(Card c){
 		int post = cards.indexOf(c);
-		if (post == cards.size()-1){
-			System.out.println("Beep!  At last");
-			return new Card();
-		}
 		return cards.get(post+1);
 	}
 
