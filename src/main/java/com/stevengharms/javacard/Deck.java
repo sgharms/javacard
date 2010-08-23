@@ -50,6 +50,10 @@ public class Deck
 		return result ? true : false;
 	}
 	
+	public boolean removeCard(Card c){
+		return cards.remove(c);
+	}
+	
 	Card get(int i){
 		return (Card)cards.get(i);
 	}

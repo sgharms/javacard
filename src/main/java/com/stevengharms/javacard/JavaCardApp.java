@@ -48,10 +48,20 @@ public class JavaCardApp{
 		
 		this.setCurrentCard(jc);
 		this.currentIndex = sourceDeck.indexOf(jc);
+		System.out.println("Succesfully added a card!");
 	}
 	
 	public Card getCurrentCard(){
 		return currentCard;
+	}
+	
+	public void deleteCurrentCard() throws NullPointerException{
+		boolean result = sourceDeck.removeCard(currentCard);
+		if (! result){
+			throw new NullPointerException();
+		}
+		currentCard = null;
+		// System.out.println("The ruslt was " + result);
 	}
 	
 	public void setCurrentCard(Card c){
@@ -66,8 +76,11 @@ public class JavaCardApp{
 		String p = "^Placeholder.*";
 		if (c.getFront().toString().matches(p) && 
 			c.getBack().toString().matches(p)){
-				view.renderNew = true;
 		}
+	}
+	
+	public Deck getDeck(){
+		return sourceDeck;
 	}
 	
 }
