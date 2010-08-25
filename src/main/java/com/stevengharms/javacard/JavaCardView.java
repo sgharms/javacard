@@ -29,6 +29,10 @@ public class JavaCardView{
 	
 	private JTextArea jtext_ques	 = new JTextArea();
 	private JTextArea jtext_answer 	 = new JTextArea();
+	
+	private JMenuBar menuBar;
+	JMenu menu;
+	JMenuItem menuItem;
 
 	/* Button Listeners */
 	private class FocusPolicy{
@@ -242,6 +246,12 @@ public class JavaCardView{
 			}
 			);
 		}
+		
+		/* Build in a funky, funky, menu */
+		menuBar = new JMenuBar();
+		menu = new JMenu("File");
+		menuBar.add(menu);
+		frame.setJMenuBar(menuBar);
 		
 
 		// Read 'em and weep
