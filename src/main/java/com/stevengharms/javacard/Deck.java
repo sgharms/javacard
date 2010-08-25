@@ -7,7 +7,7 @@ import java.io.*;
 
 public class Deck implements Serializable
 {
-	private ArrayList<Card> cards;
+	protected ArrayList<Card> cards;
 	
 	public Deck()
 	{
