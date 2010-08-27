@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 
-public class JavaCardView{
+public class JavaCardView implements ActionListener{
 	
 	// Access to the controller
 	JavaCardApp app = null;
@@ -30,9 +30,10 @@ public class JavaCardView{
 	private JTextArea jtext_ques	 = new JTextArea();
 	private JTextArea jtext_answer 	 = new JTextArea();
 	
+	/* Menuing */
 	private JMenuBar menuBar;
 	JMenu menu;
-	JMenuItem menuItem;
+	JMenuItem menuItem, saveMenuItem, openMenuItem, quitMenuItem;
 
 	/* Button Listeners */
 	private class FocusPolicy{
@@ -251,12 +252,39 @@ public class JavaCardView{
 		menuBar = new JMenuBar();
 		menu = new JMenu("File");
 		menuBar.add(menu);
+
+		saveMenuItem = new JMenuItem("Save");
+		openMenuItem = new JMenuItem("Open");
+		quitMenuItem = new JMenuItem("Quit");
+		
+		menu.add(saveMenuItem);
+		menu.add(openMenuItem);
+		menu.add(quitMenuItem);
+		
+		saveMenuItem.addActionListener(this);
+		openMenuItem.addActionListener(this);
+		quitMenuItem.addActionListener(new QuitAction(frame));
+
 		frame.setJMenuBar(menuBar);
 		
 
 		// Read 'em and weep
 		frame.setVisible(true);
 		this.update();
+	}
+	
+	private class QuitAction implements ActionListener{
+		private JFrame frame;
+		QuitAction(){
+			super();
+		}
+		QuitAction(JFrame frame){
+			this.frame = frame;
+		}
+		public void actionPerformed(ActionEvent e){
+			WindowEvent windowClosing = new WindowEvent(frame, WindowEvent.WINDOW_CLOSING);
+			Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(windowClosing);
+		}
 	}
 	
 	private Container configureButtons(Container c, JButton[] jcomps){
@@ -390,5 +418,10 @@ public class JavaCardView{
 		app.nullifyCurrentCard();
 		jtext_ques.requestFocus();
 	}
+	
+	public void actionPerformed(ActionEvent e){
+		System.out.println("I saw a " + e);
+	}
+	
 	
 }
