@@ -261,8 +261,8 @@ public class JavaCardView implements ActionListener{
 		menu.add(openMenuItem);
 		menu.add(quitMenuItem);
 		
-		saveMenuItem.addActionListener(this);
-		openMenuItem.addActionListener(this);
+		saveMenuItem.addActionListener(new SaveAction(frame));
+		openMenuItem.addActionListener(new OpenAction(frame));
 		quitMenuItem.addActionListener(new QuitAction(frame));
 
 		frame.setJMenuBar(menuBar);
@@ -284,6 +284,32 @@ public class JavaCardView implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			WindowEvent windowClosing = new WindowEvent(frame, WindowEvent.WINDOW_CLOSING);
 			Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(windowClosing);
+		}
+	}
+
+	private class OpenAction implements ActionListener{
+		private JFrame frame;
+		OpenAction(){
+			super();
+		}
+		OpenAction(JFrame frame){
+			this.frame = frame;
+		}
+		public void actionPerformed(ActionEvent e){
+			System.out.println("Open a file");
+		}
+	}
+
+	private class SaveAction implements ActionListener{
+		private JFrame frame;
+		SaveAction(){
+			super();
+		}
+		SaveAction(JFrame frame){
+			this.frame = frame;
+		}
+		public void actionPerformed(ActionEvent e){
+			System.out.println("Save a file");
 		}
 	}
 	
