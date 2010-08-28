@@ -7,3 +7,5 @@
 - Consider if we can abstract some of the UGI logic out to a common class between 
 - look into the getSource() method to lighten up the button choosing logic from ActionEvent
 
+/* Code */
+- Examine method signatures, should they so often be returning void?

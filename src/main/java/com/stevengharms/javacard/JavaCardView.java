@@ -314,8 +314,8 @@ public class JavaCardView implements ActionListener{
 			int returnVal = fc.showOpenDialog(frame);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 	            File file = fc.getSelectedFile();
-	            //This is where a real application would open the file.
 	            System.out.println("Opening: " + file.getName() + "." );
+				app.open(file.getAbsolutePath());
 	        } else {
 	            System.out.println("Open command cancelled by user." );
 	        }			
