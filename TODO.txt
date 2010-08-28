@@ -5,5 +5,5 @@
 - Take all the GUI building code out of the View initializer and put it into a buildGUI() method.
 - Create the "review mode" gui
 - Consider if we can abstract some of the UGI logic out to a common class between 
-
+- look into the getSource() method to lighten up the button choosing logic from ActionEvent
 

@@ -11,6 +11,9 @@ public class JavaCardView implements ActionListener{
 	// Access to the controller
 	JavaCardApp app = null;
 	
+	// Root frame
+	private JFrame frame;
+	
 	
 	// This makes the big box's, with the minimize, maximize, close buttons 
 	// size change
@@ -189,11 +192,16 @@ public class JavaCardView implements ActionListener{
 	public JavaCardView(JavaCardApp jca){
 		this();
 		this.app = jca;
+		
+		// TODO:  I call this a code smell, why are the other buttton-binding operations in 
+		// the default constructor.  This definitely needs some refactoring.
+		
+		saveMenuItem.addActionListener(new SaveAction(app, frame));
 	}
 	
 	public JavaCardView(){
 		// Top level container
-		JFrame frame = new JFrame();
+		frame = new JFrame();
 		frame.setSize(this.FRAME_SIZE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -262,7 +270,6 @@ public class JavaCardView implements ActionListener{
 		menu.add(openMenuItem);
 		menu.add(quitMenuItem);
 		
-		saveMenuItem.addActionListener(new SaveAction(frame));
 		openMenuItem.addActionListener(new OpenAction(frame));
 		quitMenuItem.addActionListener(new QuitAction(frame));
 
@@ -316,15 +323,29 @@ public class JavaCardView implements ActionListener{
 	}
 
 	private class SaveAction implements ActionListener{
-		private JFrame frame;
+		private JavaCardApp jcController;
+		private JFrame      parent;
 		SaveAction(){
 			super();
 		}
-		SaveAction(JFrame frame){
-			this.frame = frame;
+		SaveAction(JavaCardApp j, JFrame parent){
+			this.jcController = j;
+			this.parent = parent;
 		}
 		public void actionPerformed(ActionEvent e){
-			System.out.println("Save a file");
+			try{
+				JFileChooser fc = new JFileChooser();
+				int returnVal = fc.showSaveDialog(parent);
+	            if (returnVal == JFileChooser.APPROVE_OPTION) {
+	                File file = fc.getSelectedFile();
+	                jcController.save(file.toString());
+	            } else {
+	                // log.append("Save command cancelled by user." + newline);
+	            }
+				
+			}catch (Exception ex){
+				System.out.println("Couldn't save because: " + ex);
+			}
 		}
 	}
 	
