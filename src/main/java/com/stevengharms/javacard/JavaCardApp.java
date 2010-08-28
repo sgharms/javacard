@@ -95,7 +95,7 @@ public class JavaCardApp{
 	public Deck getDeck(){
 		return sourceDeck;
 	}
-	
+		
 	public void razzle(){
 		System.out.println("razzle!");
 	}
@@ -110,6 +110,22 @@ public class JavaCardApp{
 			os.close();
 		}catch (Exception e){
 			System.out.println("We were unable to save the file: " + aFile);
+		}
+	}
+	
+	public void open(String aFile){
+		System.out.println("Controller has "+ aFile);
+		
+		try{
+			FileInputStream instream = new FileInputStream(aFile);
+			ObjectInputStream is = new ObjectInputStream(instream);
+			sourceDeck = (JavaCardDeck) is.readObject();
+			System.out.println(sourceDeck);
+			currentIndex = 0;
+			currentCard = sourceDeck.get(0);
+			view.update();
+		}catch (Exception e){
+			System.out.println("Was not able to find:  " + e);
 		}
 	}
 	
