@@ -3,6 +3,7 @@ package com.stevengharms.javacard;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 
 public class JavaCardView implements ActionListener{
@@ -297,6 +298,20 @@ public class JavaCardView implements ActionListener{
 		}
 		public void actionPerformed(ActionEvent e){
 			System.out.println("Open a file");
+
+			/* REFERENCE
+			http://download.oracle.com/javase/tutorial/uiswing/components/filechooser.html
+			*/
+			
+			final JFileChooser fc = new JFileChooser();
+			int returnVal = fc.showOpenDialog(frame);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+	            File file = fc.getSelectedFile();
+	            //This is where a real application would open the file.
+	            System.out.println("Opening: " + file.getName() + "." );
+	        } else {
+	            System.out.println("Open command cancelled by user." );
+	        }			
 		}
 	}
 
