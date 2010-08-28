@@ -71,6 +71,10 @@ public class Deck implements Serializable
 		return cards.size();
 	}
 	
+	public int length(){
+	  return this.size();
+	}
+	
 	public Card cardPriorTo(Card c){
 		int post = cards.indexOf(c);
 		if (post == 0){

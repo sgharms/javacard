@@ -1,6 +1,7 @@
 package com.stevengharms.javacard;
 
 import java.util.regex.*;
+import java.io.*;
 
 public class JavaCardApp{
 	private JavaCardDeck sourceDeck;
@@ -93,6 +94,23 @@ public class JavaCardApp{
 	
 	public Deck getDeck(){
 		return sourceDeck;
+	}
+	
+	public void razzle(){
+		System.out.println("razzle!");
+	}
+	
+	public void save(String aFile){
+		System.out.printf("Controller about to save [%s] records to [%s]\n", this.getDeck().length(), aFile);
+
+		try{ 
+			FileOutputStream fileStream = new FileOutputStream(aFile);
+			ObjectOutputStream os = new ObjectOutputStream(fileStream);
+			os.writeObject(this.getDeck());
+			os.close();
+		}catch (Exception e){
+			System.out.println("We were unable to save the file: " + aFile);
+		}
 	}
 	
 }
