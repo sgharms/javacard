@@ -8,7 +8,8 @@ import java.awt.event.*;
 
 public class JavaCardApp{
 	private JavaCardDeck sourceDeck;
-	private JavaCardViewParent viewParent;
+	private JavaCardEditView editView;
+    private JavaCardReviewView reviewView;
     private JFrame rootFrame;
 
 	private int deckIndex = 0;
@@ -49,7 +50,14 @@ public class JavaCardApp{
         
         editButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ev){
-                viewParent.setVisible(true);
+                editView.setVisible(true);
+                rootFrame.setVisible(false);
+            }
+        });
+
+        reviewButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ev){
+                reviewView.setVisible(true);
                 rootFrame.setVisible(false);
             }
         });
@@ -60,7 +68,8 @@ public class JavaCardApp{
         rootFrame.setVisible(true);
 
         // Secondary editView Object
-		viewParent = new JavaCardEditView(this, rootFrame);
+		editView = new JavaCardEditView(this, rootFrame);
+        reviewView = new JavaCardReviewView(this, rootFrame);
         
         return 1;
     }
@@ -75,7 +84,7 @@ public class JavaCardApp{
 		}
 		catch (Exception e){
 			System.err.println("Exception Handled:"+e);
-			viewParent.giveFocusToEmptyTextArea();
+			editView.giveFocusToEmptyTextArea();
 		}
 		
 		if (!result){
@@ -166,7 +175,7 @@ public class JavaCardApp{
             if (! (sourceDeck.length() == 0))
 			  currentCard = sourceDeck.get(0);
 
-            viewParent.update();
+            editView.update();
 		}catch (Exception e){
 			System.out.println("Was not able to find:  " + e);
 		}
