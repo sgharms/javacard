@@ -1,13 +1,15 @@
 package com.stevengharms.javacard;
 
-import java.util.regex.*;
+import javax.swing.*;
+import java.awt.event.ActionListener;
 import java.io.*;
+import java.awt.*;
+import java.awt.event.*;
 
 public class JavaCardApp{
 	private JavaCardDeck sourceDeck;
-	private JavaCardDeck correctDeck;
-	private JavaCardDeck incorrectDeck;
 	private JavaCardView view;
+    private JFrame rootFrame;
 
 	private int deckIndex = 0;
     private Card currentCard = null;
@@ -18,19 +20,52 @@ public class JavaCardApp{
 	public JavaCardApp(){
 		// Model Objects
 		sourceDeck    = new JavaCardDeck();
-		correctDeck   = new JavaCardDeck();
-		incorrectDeck = new JavaCardDeck();
-		
-		// View Object	
-		view          = new JavaCardView(this);	
+		JavaCardDeck correctDeck= new JavaCardDeck();
+		JavaCardDeck incorrectDeck= new JavaCardDeck();
+
 	}
 	
 	public static void main (String[] args)
 	{
 		JavaCardApp app = new JavaCardApp();
+        app.initialGUI();
 	}
-	
-	public void addNewCard(String[] qa) throws IllegalArgumentException{
+
+    private int initialGUI() {
+        final JFrame rootFrame = new JFrame();
+        rootFrame.setSize(500,100);
+
+        JPanel basicPanel = new JPanel();
+        JLabel description = new JLabel("Welcome to JavaCard");
+
+        basicPanel.add(description);
+        rootFrame.getContentPane().add(basicPanel, BorderLayout.NORTH);
+
+        JPanel  buttonPanel = new JPanel();
+        JButton editButton = new JButton("Edit a flash card deck");
+        JButton reviewButton = new JButton("Review a flash card deck");
+
+
+        
+        editButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ev){
+                view.setVisible(true);
+                rootFrame.setVisible(false);
+            }
+        });
+        buttonPanel.add(editButton);
+        buttonPanel.add(reviewButton);
+        rootFrame.getContentPane().add(buttonPanel,BorderLayout.SOUTH);
+
+        rootFrame.setVisible(true);
+
+        // Secondary view Object
+		view          = new JavaCardView(this, rootFrame);
+        
+        return 1;
+    }
+
+    public void addNewCard(String[] qa) throws IllegalArgumentException{
 		boolean result = false;
 		JavaCard jc = null;
 		
