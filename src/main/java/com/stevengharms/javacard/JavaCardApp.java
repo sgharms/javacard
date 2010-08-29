@@ -176,6 +176,7 @@ public class JavaCardApp{
 			  currentCard = sourceDeck.get(0);
 
             editView.update();
+            reviewView.update();
 		}catch (Exception e){
 			System.out.println("Was not able to find:  " + e);
 		}

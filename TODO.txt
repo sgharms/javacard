@@ -1,17 +1,20 @@
-/* DATA */
-- Implement serialization of a JavaCardDeck
+                                             /* GENERAL */
+- The GUI needs some help!  It's ugly and messy and confusing.  This is probably a branch-off task!
 
-/* GUI */ 
+                                             /* BUGS */
+- Flipping from review mode to edit mode seems to lead to a crash
+
+
+                                             /* GUI */
 - Take all the GUI building code out of the View initializer and put it into a buildGUI() method.
 - Create the "review mode" gui
 - Consider if we can abstract some of the GUI logic out to a common class between 
 - look into the getSource() method to lighten up the button choosing logic from ActionEvent
 
-/* Code */
+                                              /* Code */
 - Examine method signatures, should they so often be returning void?
 
-/* IRC IDEAS */
-
+                                            /* IRC IDEAS */
 - Over-generalization
  - sgharms: if you only accept strings, why are you saying Cards accept objects?
  - JavaCard is vacuous:

@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 
 /**
@@ -45,9 +47,41 @@ public abstract class JavaCardViewParent implements ActionListener {
         menu = new JMenu("File");
     }
 
-    protected abstract Container configureButtons(Container c, JButton[] jcomps);
+    protected Container configureButtons(Container c, JButton[] jcomps){
+		for (int i=0; i< jcomps.length; i++){
+			c.add(jcomps[i]);
+		}
+		return c;
+	}
 
-    protected abstract Container configureTextAreas(Container c, JTextArea[] jcomps, String[] labels);
+    protected Container configureTextAreas(Container c, JTextArea[] jcomps, String[] labels){
+		for (int i=0; i< jcomps.length; i++){
+			jcomps[i].setLineWrap(true);
+			jcomps[i].setMaximumSize(TEXT_AREA_SIZE);
+			jcomps[i].setPreferredSize(TEXT_AREA_SIZE);
+			jcomps[i].setBorder(BorderFactory.createLineBorder(Color.black));
+
+			// Oooh, hey isn't that fancy, an anonymous class that implements an interface?
+			// Neat.
+			jcomps[i].addKeyListener(
+			  new KeyListener(){
+				public void keyPressed(KeyEvent k){
+				}
+				public void keyReleased(KeyEvent k){
+				}
+				public void keyTyped(KeyEvent k){
+				}
+			  }
+			);
+
+			JLabel jl = new JLabel(labels[i],SwingConstants.RIGHT);
+			jl.setPreferredSize(LABEL_SIZE);
+
+			c.add(jl);
+			c.add(jcomps[i]);
+		}
+		return c;
+	}
 
     public void setQuestion(String s){
         jtext_ques.setText(s);
@@ -105,58 +139,23 @@ public abstract class JavaCardViewParent implements ActionListener {
 
 
 
-    class ButtonBackListener implements ActionListener {
-        JavaCardViewParent viewParentClass;
 
-        ButtonBackListener(){
-            super();
-        }
-
-        ButtonBackListener(JavaCardViewParent v){
-            viewParentClass = v;
-        }
-
-        public void actionPerformed (ActionEvent e){
-            System.out.println("Back got clicked!");
-            app.goToPreviousCard();
-            viewParentClass.update();
-        }
-    }
-
-    class ButtonForwardListener implements ActionListener {
-        JavaCardViewParent viewParentClass;
-
-        ButtonForwardListener(){
-            super();
-        }
-
-        ButtonForwardListener(JavaCardViewParent v){
-            viewParentClass = v;
-        }
-
-        public void actionPerformed (ActionEvent e){
-            System.out.println("Forward got clicked!");
-            app.goToSubsequentCard();
-            viewParentClass.update();
-        }
-
-    }
 
     protected class QuitAction implements ActionListener{
         private JFrame frame;
-public JFrame parentFrame;
+        public JFrame parentFrame;
 
         QuitAction(){
             super();
         }
         QuitAction(JFrame f, JFrame pf){
-this();
-frame = f;
-parentFrame = pf;
+            this();
+            frame = f;
+            parentFrame = pf;
         }
         public void actionPerformed(ActionEvent e){
-frame.setVisible(false);
-parentFrame.setVisible(true);
+            frame.setVisible(false);
+            parentFrame.setVisible(true);
             /*
             WindowEvent windowClosing = new WindowEvent(frame, WindowEvent.WINDOW_CLOSING);
             Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(windowClosing);
@@ -183,7 +182,7 @@ parentFrame.setVisible(true);
             int returnVal = fc.showOpenDialog(frame);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
-                System.out.println("Opening: " + file.getName() + "." );
+                System.out.println(this + " is opening: " + file.getName() + "." );
                 app.open(file.getAbsolutePath());
             } else {
                 System.out.println("Open command cancelled by user." );
