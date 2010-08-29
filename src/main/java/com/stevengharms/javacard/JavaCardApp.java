@@ -96,12 +96,17 @@ public class JavaCardApp{
 	}
 	
 	public void deleteCurrentCard() throws NullPointerException{
-		int reset_index = sourceDeck.indexOf(currentCard);
+		int reset_index = sourceDeck.indexOf(currentCard) - 1;
+        if (reset_index < 0)
+                reset_index = 0;
 		boolean result = sourceDeck.removeCard(currentCard);
 		if (! result){
 			throw new NullPointerException();
 		}
-		currentCard = sourceDeck.get(reset_index);
+
+        currentCard = sourceDeck.isEmpty() ?
+                null :
+                sourceDeck.get(reset_index);
 	}
 	
 	public void setCurrentCard(Card c){
@@ -117,14 +122,14 @@ public class JavaCardApp{
 	
 	public boolean nextCardExists(){
 		int currIndex = sourceDeck.indexOf(currentCard);
-		boolean yesno = sourceDeck.exists(currIndex+1) ? true : false;
+		boolean yesno = sourceDeck.exists(currIndex + 1);
 		System.out.println("I say " + yesno);
 		return yesno;
 	}
 	
 	public boolean priorCardExists(){
 		int currIndex = sourceDeck.indexOf(currentCard);
-		return (currIndex == 0) ? false : true;
+		return (currIndex != 0);
 	}
 	
 	public Deck getDeck(){
@@ -157,8 +162,11 @@ public class JavaCardApp{
 			sourceDeck = (JavaCardDeck) is.readObject();
 			System.out.println(sourceDeck);
 			currentIndex = 0;
-			currentCard = sourceDeck.get(0);
-			view.update();
+
+            if (! (sourceDeck.length() == 0))
+			  currentCard = sourceDeck.get(0);
+
+            view.update();
 		}catch (Exception e){
 			System.out.println("Was not able to find:  " + e);
 		}
