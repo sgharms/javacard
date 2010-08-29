@@ -12,7 +12,7 @@ public class JavaCardView implements ActionListener{
 	JavaCardApp app = null;
 	
 	// Root frame
-	private JFrame frame;
+	private JFrame frame, parentFrame;
 	
 	
 	// This makes the big box's, with the minimize, maximize, close buttons 
@@ -33,13 +33,12 @@ public class JavaCardView implements ActionListener{
 	
 	private JTextArea jtext_ques	 = new JTextArea();
 	private JTextArea jtext_answer 	 = new JTextArea();
-	
-	/* Menuing */
-	private JMenuBar menuBar;
+
 	JMenu menu;
 	JMenuItem menuItem, saveMenuItem, openMenuItem, quitMenuItem;
+    private JPanel parentPanel;
 
-	/* Button Listeners */
+    /* Button Listeners */
 	private class FocusPolicy{
 		JComponent j;
 
@@ -184,28 +183,28 @@ public class JavaCardView implements ActionListener{
 	}
 
 
-	public JavaCardView(JavaCardApp jca){
+	public JavaCardView(JavaCardApp jca, JFrame jcf){
 		this();
-		this.app = jca;
-		
-		// TODO:  I call this a code smell, why are the other buttton-binding operations in 
-		// the default constructor.  This definitely needs some refactoring.
+		app = jca;
+        parentFrame = jcf;
 		
 		saveMenuItem.addActionListener(new SaveAction(app, frame));
+        openMenuItem.addActionListener(new OpenAction(frame));
+		quitMenuItem.addActionListener(new QuitAction(frame, parentFrame));
 	}
 	
 	public JavaCardView(){
 		// Top level container
 		frame = new JFrame();
-		frame.setSize(this.FRAME_SIZE);
+		frame.setSize(FRAME_SIZE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// West container
 		JPanel westTextPanel = new JPanel();
 		westTextPanel.setLayout(new FlowLayout());
 		
-		westTextPanel.setMaximumSize(this.WEST_PANEL_SIZE);
-		westTextPanel.setPreferredSize(this.WEST_PANEL_SIZE);
+		westTextPanel.setMaximumSize(WEST_PANEL_SIZE);
+		westTextPanel.setPreferredSize(WEST_PANEL_SIZE);
 		
 		jtext_ques.setName("jtext_ques");
 		jtext_answer.setName("jtext_answer");
@@ -253,40 +252,46 @@ public class JavaCardView implements ActionListener{
 		}
 		
 		/* Build in a funky, funky, menu */
-		menuBar = new JMenuBar();
+		JMenuBar menuBar = new JMenuBar();
 		menu = new JMenu("File");
 		menuBar.add(menu);
 
 		saveMenuItem = new JMenuItem("Save");
 		openMenuItem = new JMenuItem("Open");
-		quitMenuItem = new JMenuItem("Quit");
+		quitMenuItem = new JMenuItem("Close");
 		
 		menu.add(saveMenuItem);
 		menu.add(openMenuItem);
 		menu.add(quitMenuItem);
 		
-		openMenuItem.addActionListener(new OpenAction(frame));
-		quitMenuItem.addActionListener(new QuitAction(frame));
+
 
 		frame.setJMenuBar(menuBar);
 		
 
 		// Read 'em and weep
-		frame.setVisible(true);
-		this.update();
+		frame.setVisible(false);
 	}
 	
 	private class QuitAction implements ActionListener{
 		private JFrame frame;
+        public JFrame parentFrame;
+        
 		QuitAction(){
 			super();
 		}
-		QuitAction(JFrame frame){
-			this.frame = frame;
+		QuitAction(JFrame f, JFrame pf){
+            this();
+            frame = f;
+            parentFrame = pf;
 		}
 		public void actionPerformed(ActionEvent e){
+            frame.setVisible(false);
+            parentFrame.setVisible(true);
+			/*
 			WindowEvent windowClosing = new WindowEvent(frame, WindowEvent.WINDOW_CLOSING);
 			Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(windowClosing);
+			*/
 		}
 	}
 
@@ -353,8 +358,8 @@ public class JavaCardView implements ActionListener{
 	private Container configureTextAreas(Container c, JTextArea[] jcomps, String[] labels){
 		for (int i=0; i< jcomps.length; i++){
 			jcomps[i].setLineWrap(true);
-			jcomps[i].setMaximumSize(this.TEXT_AREA_SIZE);
-			jcomps[i].setPreferredSize(this.TEXT_AREA_SIZE);
+			jcomps[i].setMaximumSize(TEXT_AREA_SIZE);
+			jcomps[i].setPreferredSize(TEXT_AREA_SIZE);
 			jcomps[i].setBorder(BorderFactory.createLineBorder(Color.black));
 			
 			// Oooh, hey isn't that fancy, an anonymous class that implements an interface?
@@ -371,7 +376,7 @@ public class JavaCardView implements ActionListener{
 			);
 
 			JLabel jl = new JLabel(labels[i],SwingConstants.RIGHT);
-			jl.setPreferredSize(this.LABEL_SIZE); 
+			jl.setPreferredSize(LABEL_SIZE);
 			
 			c.add(jl);
 			c.add(jcomps[i]);
@@ -399,7 +404,11 @@ public class JavaCardView implements ActionListener{
 		this.setQuestion(q);
 		this.setAnswer(a);
 	}
-	
+
+    public void setVisible(boolean b){
+        frame.setVisible(b);    
+    }
+
 	public String[] getQuestionAndAnswer(){
 		return new String[] {getQuestion(), getAnswer()};
 	}
@@ -419,9 +428,19 @@ public class JavaCardView implements ActionListener{
 	public void update(){
 		System.out.println("Update\n----------------------");
 		
-		Card curr = null;
+		Card curr = (app.getDeck().isEmpty()) ? null : app.getCurrentCard();
+
+        if ( curr == null ){
+        	System.out.println("There is no current card! ");
+			this.setQuestionAndAnswer("","");
+			this.button_del.setEnabled(false);
+			this.button_forward.setEnabled(false);
+			this.button_back.setEnabled(false);
+			this.button_back.setEnabled(false);
+            return;
+        }
+
 		try{
-			curr = app.getCurrentCard();
 			/* OK, so we have a currentCard */
 			this.setQuestion((String)curr.getFront());
 			this.setAnswer((String)curr.getBack());
@@ -458,13 +477,6 @@ public class JavaCardView implements ActionListener{
 
 			}
 
-		}catch (NullPointerException e){
-			System.out.println("There is no current card! " + e);
-			this.setQuestionAndAnswer("","");
-			this.button_del.setEnabled(false);
-			this.button_forward.setEnabled(false);
-			this.button_back.setEnabled(false);
-			this.button_back.setEnabled(false);
 		}
 		catch (Exception e){
 			System.out.println("Exception! " + e);
