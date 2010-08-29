@@ -53,7 +53,7 @@ public class JavaCardApp{
 	}
 	
 	public Card getCurrentCard(){
-		return currentCard;
+        return (currentCard == null) ? new Card() : currentCard;
 	}
 	
 	public  void nullifyCurrentCard(){

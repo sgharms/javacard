@@ -42,6 +42,10 @@ public class Deck implements Serializable
 	public int indexOf(Object o){
 		return cards.indexOf(o);
 	}
+
+    public boolean isEmpty(){
+        return cards.isEmpty();
+    }
 	
 	boolean addCard(Card c) throws UnsupportedOperationException,ClassCastException,
 								   NullPointerException,IllegalArgumentException,IllegalStateException{
@@ -56,7 +60,7 @@ public class Deck implements Serializable
 			System.out.println("Was not able to add the card "+ c + " because "+ e);
 			
 		}
-		return result ? true : false;
+		return result;
 	}
 	
 	public boolean removeCard(Card c){
@@ -64,7 +68,7 @@ public class Deck implements Serializable
 	}
 	
 	Card get(int i){
-		return (Card)cards.get(i);
+		return cards.get(i);
 	}
 	
 	public int size(){
@@ -106,7 +110,7 @@ public class Deck implements Serializable
         String[] a = c.toArray(new String[0]);
     
 		*/
-		return cards.toArray(new Card[0]);
+		return cards.toArray(new Card[cards.size()]);
 		
 	}
 	

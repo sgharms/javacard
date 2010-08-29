@@ -54,11 +54,11 @@ public class JavaCardView implements ActionListener{
 		public JComponent nextItem(){
 			j = this.j;
 			
-			if (j.getName() == "jtext_ques")
+			if (j.getName().equals("jtext_ques"))
 			{
 				return jtext_answer;
 			}
-			else if (j.getName() == "jtext_answer")
+			else if (j.getName().equals("jtext_answer"))
 			{
 				return button_add;
 			}
@@ -136,11 +136,6 @@ public class JavaCardView implements ActionListener{
 		
 	}
 
-	class ButtonExitListener implements ActionListener {
-		public void actionPerformed (ActionEvent e){
-			System.out.println("I got clicked!");
-		}
-	}
 
 	class ButtonAddListener implements ActionListener {
 		JavaCardView viewClass;
