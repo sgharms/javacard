@@ -3,56 +3,106 @@ package com.stevengharms.javacard;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 
 
-public class JavaCardEditView implements ActionListener{
-	
-	// Access to the controller
-	JavaCardApp app = null;
-	
-	// Root frame
-	private JFrame frame, parentFrame;
-	
-	
-	// This makes the big box's, with the minimize, maximize, close buttons 
-	// size change
-	private static final Dimension FRAME_SIZE      = new Dimension(480,480);
-	
-	// This is the container for the text widgets
-	private static final Dimension WEST_PANEL_SIZE = new Dimension(475,475);
-	private static final Dimension TEXT_AREA_SIZE  = new Dimension(380,175);
-	private static final Dimension LABEL_SIZE      = new Dimension(60,20);
+public class JavaCardEditView extends JavaCardViewParent {
 
-	
-	private JButton   button_add 	 = new JButton("Add");
-	private JButton   button_del 	 = new JButton("Delete");	
-	private JButton   button_back 	 = new JButton("<");
-	private JButton   button_forward = new JButton(">");
-	private JButton   button_new     = new JButton("+");
-	
-	private JTextArea jtext_ques	 = new JTextArea();
-	private JTextArea jtext_answer 	 = new JTextArea();
 
-	JMenu menu;
-	JMenuItem menuItem, saveMenuItem, openMenuItem, quitMenuItem;
-    private JPanel parentPanel;
+    protected JButton   button_add 	 = new JButton("Add");
+	private JButton   button_del 	 = new JButton("Delete");
+    private JButton   button_new     = new JButton("+");
 
-    /* Button Listeners */
-	private class FocusPolicy{
+    class ButtonNewListener implements ActionListener {
+		JavaCardViewParent viewParentClass;
+		
+		ButtonNewListener(){
+			super();
+		}
+		
+		ButtonNewListener(JavaCardViewParent v){
+			viewParentClass = v;
+		}
+		
+		public void actionPerformed (ActionEvent e){
+			System.out.println("New got clicked!");
+			viewParentClass.prepForNewCard();
+			viewParentClass.update();
+		}
+	}
+
+    class ButtonRightListener implements ActionListener {
+		public void actionPerformed (ActionEvent e){
+			System.out.println("I got clicked!");
+		}
+	}
+
+	class ButtonWrongListener implements ActionListener {
+		public void actionPerformed (ActionEvent e){
+			System.out.println("I got clicked!");
+		}
+	}
+
+
+    class ButtonAddListener implements ActionListener {
+		JavaCardViewParent viewParentClass;
+		
+		ButtonAddListener(){
+			super();
+		}
+		
+		ButtonAddListener(JavaCardViewParent v){
+			viewParentClass = v;
+		}
+		
+		public void actionPerformed (ActionEvent e){
+			System.out.println("Add clicked!");
+			try{
+				app.addNewCard(getQuestionAndAnswer());				
+				viewParentClass.update();
+			}
+			catch (NullPointerException n){
+				System.out.println("Caught a null exception!");
+			}
+		}
+	}
+
+	class ButtonDelListener implements ActionListener {
+		JavaCardViewParent viewParentClass;
+		
+		ButtonDelListener(){
+			super();
+		}
+		
+		ButtonDelListener(JavaCardViewParent v){
+			viewParentClass = v;
+		}
+		
+		public void actionPerformed (ActionEvent e){
+			System.out.println("Delete clicked!");
+			try{
+				viewParentClass.deleteCurrentCard();
+				viewParentClass.update();
+			}
+			catch (NullPointerException n){
+				System.out.println("DELETE caught a null exception!");
+			}
+		}		
+	}
+
+     protected class FocusPolicy{
 		JComponent j;
 
 		FocusPolicy(){
 			super();
 		}
-		
+
 		FocusPolicy(JComponent j){
 			this.j=j;
 		}
-		
+
 		public JComponent nextItem(){
 			j = this.j;
-			
+
 			if (j.getName().equals("jtext_ques"))
 			{
 				return jtext_answer;
@@ -68,121 +118,6 @@ public class JavaCardEditView implements ActionListener{
 		}
 	}
 
-	class ButtonNewListener implements ActionListener {
-		JavaCardEditView editViewClass;
-		
-		ButtonNewListener(){
-			super();
-		}
-		
-		ButtonNewListener(JavaCardEditView v){
-			editViewClass = v;
-		}
-		
-		public void actionPerformed (ActionEvent e){
-			System.out.println("New got clicked!");
-			editViewClass.prepForNewCard();
-			editViewClass.update();
-		}
-	}
-		
-	class ButtonBackListener implements ActionListener {
-		JavaCardEditView editViewClass;
-		
-		ButtonBackListener(){
-			super();
-		}
-		
-		ButtonBackListener(JavaCardEditView v){
-			editViewClass = v;
-		}
-		
-		public void actionPerformed (ActionEvent e){
-			System.out.println("Back got clicked!");
-			app.goToPreviousCard();
-			editViewClass.update();
-		}
-	}
-
-	class ButtonRightListener implements ActionListener {
-		public void actionPerformed (ActionEvent e){
-			System.out.println("I got clicked!");
-		}
-	}
-
-	class ButtonWrongListener implements ActionListener {
-		public void actionPerformed (ActionEvent e){
-			System.out.println("I got clicked!");
-		}
-	}
-
-	class ButtonForwardListener implements ActionListener {
-		JavaCardEditView editViewClass;
-		
-		ButtonForwardListener(){
-			super();
-		}
-		
-		ButtonForwardListener(JavaCardEditView v){
-			editViewClass = v;
-		}
-
-		public void actionPerformed (ActionEvent e){
-			System.out.println("Forward got clicked!");
-			app.goToSubsequentCard();
-			editViewClass.update();
-		}
-		
-	}
-
-
-	class ButtonAddListener implements ActionListener {
-		JavaCardEditView editViewClass;
-		
-		ButtonAddListener(){
-			super();
-		}
-		
-		ButtonAddListener(JavaCardEditView v){
-			editViewClass = v;
-		}
-		
-		public void actionPerformed (ActionEvent e){
-			System.out.println("Add clicked!");
-			try{
-				app.addNewCard(getQuestionAndAnswer());				
-				editViewClass.update();
-			}
-			catch (NullPointerException n){
-				System.out.println("Caught a null exception!");
-			}
-		}
-	}
-
-	class ButtonDelListener implements ActionListener {
-		JavaCardEditView editViewClass;
-		
-		ButtonDelListener(){
-			super();
-		}
-		
-		ButtonDelListener(JavaCardEditView v){
-			editViewClass = v;
-		}
-		
-		public void actionPerformed (ActionEvent e){
-			System.out.println("Delete clicked!");
-			try{
-				editViewClass.deleteCurrentCard();
-				editViewClass.update();
-			}
-			catch (NullPointerException n){
-				System.out.println("DELETE caught a null exception!");
-			}
-		}		
-	}
-
-
 	public JavaCardEditView(JavaCardApp jca, JFrame jcf){
 		this();
 		app = jca;
@@ -194,9 +129,9 @@ public class JavaCardEditView implements ActionListener{
 	}
 	
 	public JavaCardEditView(){
-		// Top level container
-		frame = new JFrame();
-		frame.setSize(FRAME_SIZE);
+        super();
+        // Top level container
+        frame.setSize(FRAME_SIZE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// West container
@@ -253,14 +188,9 @@ public class JavaCardEditView implements ActionListener{
 		
 		/* Build in a funky, funky, menu */
 		JMenuBar menuBar = new JMenuBar();
-		menu = new JMenu("File");
-		menuBar.add(menu);
+        menuBar.add(menu);
 
-		saveMenuItem = new JMenuItem("Save");
-		openMenuItem = new JMenuItem("Open");
-		quitMenuItem = new JMenuItem("Close");
-		
-		menu.add(saveMenuItem);
+        menu.add(saveMenuItem);
 		menu.add(openMenuItem);
 		menu.add(quitMenuItem);
 		
@@ -272,90 +202,16 @@ public class JavaCardEditView implements ActionListener{
 		// Read 'em and weep
 		frame.setVisible(false);
 	}
-	
-	private class QuitAction implements ActionListener{
-		private JFrame frame;
-        public JFrame parentFrame;
-        
-		QuitAction(){
-			super();
-		}
-		QuitAction(JFrame f, JFrame pf){
-            this();
-            frame = f;
-            parentFrame = pf;
-		}
-		public void actionPerformed(ActionEvent e){
-            frame.setVisible(false);
-            parentFrame.setVisible(true);
-			/*
-			WindowEvent windowClosing = new WindowEvent(frame, WindowEvent.WINDOW_CLOSING);
-			Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(windowClosing);
-			*/
-		}
-	}
 
-	private class OpenAction implements ActionListener{
-		private JFrame frame;
-		OpenAction(){
-			super();
-		}
-		OpenAction(JFrame frame){
-			this.frame = frame;
-		}
-		public void actionPerformed(ActionEvent e){
-			System.out.println("Open a file");
-
-			/* REFERENCE
-			http://download.oracle.com/javase/tutorial/uiswing/components/filechooser.html
-			*/
-			
-			final JFileChooser fc = new JFileChooser();
-			int returnVal = fc.showOpenDialog(frame);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-	            File file = fc.getSelectedFile();
-	            System.out.println("Opening: " + file.getName() + "." );
-				app.open(file.getAbsolutePath());
-	        } else {
-	            System.out.println("Open command cancelled by user." );
-	        }			
-		}
-	}
-
-	private class SaveAction implements ActionListener{
-		private JavaCardApp jcController;
-		private JFrame      parent;
-		SaveAction(){
-			super();
-		}
-		SaveAction(JavaCardApp j, JFrame parent){
-			this.jcController = j;
-			this.parent = parent;
-		}
-		public void actionPerformed(ActionEvent e){
-			try{
-				JFileChooser fc = new JFileChooser();
-				int returnVal = fc.showSaveDialog(parent);
-	            if (returnVal == JFileChooser.APPROVE_OPTION) {
-	                File file = fc.getSelectedFile();
-	                jcController.save(file.toString());
-	            } else {
-	                // log.append("Save command cancelled by user." + newline);
-	            }
-				
-			}catch (Exception ex){
-				System.out.println("Couldn't save because: " + ex);
-			}
-		}
-	}
-	
-	private Container configureButtons(Container c, JButton[] jcomps){
+    @Override
+    protected Container configureButtons(Container c, JButton[] jcomps){
 		for (int i=0; i< jcomps.length; i++){
 			c.add(jcomps[i]);
 		}
 		return c;
 	}
-	private Container configureTextAreas(Container c, JTextArea[] jcomps, String[] labels){
+	@Override
+    protected Container configureTextAreas(Container c, JTextArea[] jcomps, String[] labels){
 		for (int i=0; i< jcomps.length; i++){
 			jcomps[i].setLineWrap(true);
 			jcomps[i].setMaximumSize(TEXT_AREA_SIZE);
@@ -383,49 +239,14 @@ public class JavaCardEditView implements ActionListener{
 		}
 		return c;
 	}
-	
-	public void setQuestion(String s){
-		jtext_ques.setText(s);
-	}
-	
-	public String getQuestion(){
-		return jtext_ques.getText();
-	}
-	
-	public void setAnswer(String s){
-		jtext_answer.setText(s);
-	}
-	
-	public String getAnswer(){
-		return jtext_answer.getText();
-	}
-	
-	public void setQuestionAndAnswer(String q, String a){
-		this.setQuestion(q);
-		this.setAnswer(a);
-	}
 
+    @Override
     public void setVisible(boolean b){
         frame.setVisible(b);    
     }
 
-	public String[] getQuestionAndAnswer(){
-		return new String[] {getQuestion(), getAnswer()};
-	}
-
-	protected void giveFocusToEmptyTextArea(){
-		if (jtext_ques.getText().isEmpty()) jtext_ques.requestFocus();
-		if (jtext_answer.getText().isEmpty()) jtext_answer.requestFocus();		
-	}
-	
-	public void deleteCurrentCard(){
-		System.out.println("Right now i have " + app.getCurrentCard());
-		System.out.println("..and right now I have " + app.getDeck());
-		app.deleteCurrentCard();
-		jtext_ques.requestFocus();
-	}
-	
-	public void update(){
+    @Override
+    public void update(){
 		System.out.println("Update\n----------------------");
 		
 		Card curr = (app.getDeck().isEmpty()) ? null : app.getCurrentCard();
@@ -482,15 +303,6 @@ public class JavaCardEditView implements ActionListener{
 			System.out.println("Exception! " + e);
 		}
 	}
-	
-	public void prepForNewCard(){
-		app.nullifyCurrentCard();
-		jtext_ques.requestFocus();
-	}
-	
-	public void actionPerformed(ActionEvent e){
-		System.out.println("I saw a " + e);
-	}
-	
-	
+
+
 }
