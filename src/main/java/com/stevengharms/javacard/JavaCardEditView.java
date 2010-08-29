@@ -6,7 +6,7 @@ import java.awt.event.*;
 import java.io.File;
 
 
-public class JavaCardView implements ActionListener{
+public class JavaCardEditView implements ActionListener{
 	
 	// Access to the controller
 	JavaCardApp app = null;
@@ -69,38 +69,38 @@ public class JavaCardView implements ActionListener{
 	}
 
 	class ButtonNewListener implements ActionListener {
-		JavaCardView viewClass;
+		JavaCardEditView editViewClass;
 		
 		ButtonNewListener(){
 			super();
 		}
 		
-		ButtonNewListener(JavaCardView v){
-			viewClass = v;
+		ButtonNewListener(JavaCardEditView v){
+			editViewClass = v;
 		}
 		
 		public void actionPerformed (ActionEvent e){
 			System.out.println("New got clicked!");
-			viewClass.prepForNewCard();
-			viewClass.update();
+			editViewClass.prepForNewCard();
+			editViewClass.update();
 		}
 	}
 		
 	class ButtonBackListener implements ActionListener {
-		JavaCardView viewClass;
+		JavaCardEditView editViewClass;
 		
 		ButtonBackListener(){
 			super();
 		}
 		
-		ButtonBackListener(JavaCardView v){
-			viewClass = v;
+		ButtonBackListener(JavaCardEditView v){
+			editViewClass = v;
 		}
 		
 		public void actionPerformed (ActionEvent e){
 			System.out.println("Back got clicked!");
 			app.goToPreviousCard();
-			viewClass.update();
+			editViewClass.update();
 		}
 	}
 
@@ -117,41 +117,41 @@ public class JavaCardView implements ActionListener{
 	}
 
 	class ButtonForwardListener implements ActionListener {
-		JavaCardView viewClass;
+		JavaCardEditView editViewClass;
 		
 		ButtonForwardListener(){
 			super();
 		}
 		
-		ButtonForwardListener(JavaCardView v){
-			viewClass = v;
+		ButtonForwardListener(JavaCardEditView v){
+			editViewClass = v;
 		}
 
 		public void actionPerformed (ActionEvent e){
 			System.out.println("Forward got clicked!");
 			app.goToSubsequentCard();
-			viewClass.update();
+			editViewClass.update();
 		}
 		
 	}
 
 
 	class ButtonAddListener implements ActionListener {
-		JavaCardView viewClass;
+		JavaCardEditView editViewClass;
 		
 		ButtonAddListener(){
 			super();
 		}
 		
-		ButtonAddListener(JavaCardView v){
-			viewClass = v;
+		ButtonAddListener(JavaCardEditView v){
+			editViewClass = v;
 		}
 		
 		public void actionPerformed (ActionEvent e){
 			System.out.println("Add clicked!");
 			try{
 				app.addNewCard(getQuestionAndAnswer());				
-				viewClass.update();
+				editViewClass.update();
 			}
 			catch (NullPointerException n){
 				System.out.println("Caught a null exception!");
@@ -160,21 +160,21 @@ public class JavaCardView implements ActionListener{
 	}
 
 	class ButtonDelListener implements ActionListener {
-		JavaCardView viewClass;
+		JavaCardEditView editViewClass;
 		
 		ButtonDelListener(){
 			super();
 		}
 		
-		ButtonDelListener(JavaCardView v){
-			viewClass = v;
+		ButtonDelListener(JavaCardEditView v){
+			editViewClass = v;
 		}
 		
 		public void actionPerformed (ActionEvent e){
 			System.out.println("Delete clicked!");
 			try{
-				viewClass.deleteCurrentCard();
-				viewClass.update();
+				editViewClass.deleteCurrentCard();
+				editViewClass.update();
 			}
 			catch (NullPointerException n){
 				System.out.println("DELETE caught a null exception!");
@@ -183,7 +183,7 @@ public class JavaCardView implements ActionListener{
 	}
 
 
-	public JavaCardView(JavaCardApp jca, JFrame jcf){
+	public JavaCardEditView(JavaCardApp jca, JFrame jcf){
 		this();
 		app = jca;
         parentFrame = jcf;
@@ -193,7 +193,7 @@ public class JavaCardView implements ActionListener{
 		quitMenuItem.addActionListener(new QuitAction(frame, parentFrame));
 	}
 	
-	public JavaCardView(){
+	public JavaCardEditView(){
 		// Top level container
 		frame = new JFrame();
 		frame.setSize(FRAME_SIZE);
