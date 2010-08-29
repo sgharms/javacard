@@ -70,7 +70,9 @@ public abstract class JavaCardViewParent implements ActionListener {
         this.setAnswer(a);
     }
 
-    public abstract void setVisible(boolean b);
+    public void setVisible(boolean b){
+        frame.setVisible(true);
+    }
 
     public String[] getQuestionAndAnswer(){
         return new String[] {getQuestion(), getAnswer()};
