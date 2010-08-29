@@ -4,8 +4,36 @@
 /* GUI */ 
 - Take all the GUI building code out of the View initializer and put it into a buildGUI() method.
 - Create the "review mode" gui
-- Consider if we can abstract some of the UGI logic out to a common class between 
+- Consider if we can abstract some of the GUI logic out to a common class between 
 - look into the getSource() method to lighten up the button choosing logic from ActionEvent
 
 /* Code */
 - Examine method signatures, should they so often be returning void?
+
+/* IRC IDEAS */
+
+- Over-generalization
+ - sgharms: if you only accept strings, why are you saying Cards accept objects?
+ - JavaCard is vacuous:
+
+- sgharms: line 111 of Deck.java could be rewritten cards.toArray(new Card[cards.size()]); and it'll make more sense
+why it takes a new array as a parameter, you cast it to a String. If that's your goal, use
+var.toString().isEmpty() instead.
+
+- Don't access static variables using instances.  Especially using "this."
+
+- Be more smart in Event Handling
+  - General procedure is to create an Action for every action
+    (such as saving, loading, advancing, and so on), and reusing those as needed.
+  - ActionCommand as another option, It's more of a conceptual organization pattern, instead of having "one action for
+    each component", you want "one action per task", with
+    multiple components possibly performing one task (such as a JMenuItem and a JButton)
+  - I would suggest separating your private, internal classes from your other code. I see you write a bunch of internal
+    classes and have class methods interlaced between them. That's bad
+  - rather than catching a null pointer exception, do null comparisons
+
+ - GUI Reference
+   - http://temp.asmcbain.net/st/
+   - http://pastebin.com/DbKdySKg
+   - Tab override: http://www.exampledepot.com/egs/javax.swing.text/ta_OverrideTab.html
+
