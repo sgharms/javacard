@@ -210,39 +210,47 @@ public class JavaCardEditView extends JavaCardViewParent {
 		}
 		return c;
 	}
-	@Override
-    protected Container configureTextAreas(Container c, JTextArea[] jcomps, String[] labels){
-		for (int i=0; i< jcomps.length; i++){
-			jcomps[i].setLineWrap(true);
-			jcomps[i].setMaximumSize(TEXT_AREA_SIZE);
-			jcomps[i].setPreferredSize(TEXT_AREA_SIZE);
-			jcomps[i].setBorder(BorderFactory.createLineBorder(Color.black));
-			
-			// Oooh, hey isn't that fancy, an anonymous class that implements an interface?
-			// Neat.
-			jcomps[i].addKeyListener(
-			  new KeyListener(){
-				public void keyPressed(KeyEvent k){
-				}
-				public void keyReleased(KeyEvent k){
-				}
-				public void keyTyped(KeyEvent k){
-				}
-			  }
-			);
-
-			JLabel jl = new JLabel(labels[i],SwingConstants.RIGHT);
-			jl.setPreferredSize(LABEL_SIZE);
-			
-			c.add(jl);
-			c.add(jcomps[i]);
-		}
-		return c;
-	}
 
     @Override
     public void setVisible(boolean b){
         frame.setVisible(b);    
+    }
+
+        class ButtonBackListener implements ActionListener {
+        JavaCardViewParent viewParentClass;
+
+        ButtonBackListener(){
+            super();
+        }
+
+        ButtonBackListener(JavaCardViewParent v){
+            viewParentClass = v;
+        }
+
+        public void actionPerformed (ActionEvent e){
+            System.out.println("Back got clicked!");
+            app.goToPreviousCard();
+            viewParentClass.update();
+        }
+    }
+
+    class ButtonForwardListener implements ActionListener {
+        JavaCardViewParent viewParentClass;
+
+        ButtonForwardListener(){
+            super();
+        }
+
+        ButtonForwardListener(JavaCardViewParent v){
+            viewParentClass = v;
+        }
+
+        public void actionPerformed (ActionEvent e){
+            System.out.println("Forward got clicked!");
+            app.goToSubsequentCard();
+            viewParentClass.update();
+        }
+
     }
 
     @Override

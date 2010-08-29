@@ -2,6 +2,8 @@ package com.stevengharms.javacard;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -13,21 +15,85 @@ import java.awt.event.KeyListener;
  * To change this template use File | Settings | File Templates.
  */
 public class JavaCardReviewView extends JavaCardViewParent{
-    @Override
-    protected Container configureButtons(Container c, JButton[] jcomps) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    JButton showButton;   
+
+        class ButtonBackListener implements ActionListener {
+        JavaCardViewParent viewParentClass;
+
+        ButtonBackListener(){
+            super();
+        }
+
+        ButtonBackListener(JavaCardViewParent v){
+            viewParentClass = v;
+        }
+
+        public void actionPerformed (ActionEvent e){
+            System.out.println("Back got clicked!");
+            app.goToPreviousCard();
+            viewParentClass.update();
+            jtext_answer.setText("");
+        }
     }
 
-    @Override
-    protected Container configureTextAreas(Container c, JTextArea[] jcomps, String[] labels) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+    class ButtonForwardListener implements ActionListener {
+        JavaCardViewParent viewParentClass;
 
+        ButtonForwardListener(){
+            super();
+        }
+
+        ButtonForwardListener(JavaCardViewParent v){
+            viewParentClass = v;
+        }
+
+        public void actionPerformed (ActionEvent e){
+            System.out.println("Forward got clicked!");
+            app.goToSubsequentCard();
+            viewParentClass.update();
+            jtext_answer.setText("");
+        }
+
+    }
     
-
     @Override
     public void update() {
-        System.out.println("I am updating");
+        System.out.println("The length is " + app.getDeck().length())  ;
+        int deckLength = app.getDeck().length();
+        if ( deckLength == 0 ){
+            button_forward.setEnabled(false);
+            button_back.setEnabled(false);
+            jtext_answer.setEnabled(false);
+            showButton.setEnabled(false);
+        }else if (deckLength == 1){
+            // get the current card and apply it
+        }else if (deckLength > 1){
+            button_forward.setEnabled(true);
+            button_back.setEnabled(true);
+            showButton.setEnabled(true);
+            System.out.println("This a one: " + app.getCurrentCard());
+            jtext_ques.setText( app.getCurrentCard().getFront().toString());
+
+            if (app.nextCardExists()){
+                System.out.println("Next Exists ");
+                button_forward.setEnabled(true);
+            }else{
+                System.out.println("next does not exist");
+                button_forward.setEnabled(false);
+            }
+
+            if (app.priorCardExists()){
+                System.out.println("Previous Exists");
+                button_back.setEnabled(true);
+            }else{
+                System.out.println("Previous does not exist");
+                button_back.setEnabled(false);
+            }
+
+            // jtext_answer.setText( app.getCurrentCard().getBack().toString());
+
+        }
+
     }
 
     protected class FocusPolicy{
@@ -67,6 +133,8 @@ public class JavaCardReviewView extends JavaCardViewParent{
 		saveMenuItem.addActionListener(new SaveAction(app, frame));
         openMenuItem.addActionListener(new OpenAction(frame));
 		quitMenuItem.addActionListener(new QuitAction(frame, parentFrame));
+
+        update();
 	}
 
 	public JavaCardReviewView(){
@@ -94,6 +162,16 @@ public class JavaCardReviewView extends JavaCardViewParent{
 		configureButtons(
 			      southNavigationPanel, new JButton[]{button_back,button_forward} );
 
+        showButton = new JButton("Show");
+        showButton.addActionListener( new ActionListener() {
+            public void actionPerformed(ActionEvent ae ){
+                jtext_answer.setText(app.getCurrentCard().getBack().toString());
+            }
+        }
+        );
+
+        southNavigationPanel.add(showButton);
+
 		// Attach the components
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 		frame.getContentPane().add(westTextPanel, BorderLayout.WEST);
@@ -104,7 +182,7 @@ public class JavaCardReviewView extends JavaCardViewParent{
 		button_forward.addActionListener(new ButtonForwardListener(this));
 
 
-		for (JTextArea j : new JTextArea[]{jtext_ques, jtext_answer}){
+		for (JComponent j : new JComponent[]{jtext_ques, jtext_answer, button_forward, button_back, showButton}){
 			j.setFocusTraversalKeysEnabled(true);
 			j.addKeyListener(
 			  new KeyListener(){
@@ -134,8 +212,6 @@ public class JavaCardReviewView extends JavaCardViewParent{
 
 		frame.setJMenuBar(menuBar);
 
-
-		// Read 'em and weep
 		frame.setVisible(false);
 	}
 }
